@@ -39,7 +39,7 @@ enum Status_project {
 
 model Users {
   id Int @id @default(autoincrement())
-  username String? @unique @db.VarChar(80)
+  fullName String? @unique @db.VarChar(80)
   email String @unique @db.VarChar(80)
   password String @unique @db.VarChar(255)
   role Role @default(USER)
