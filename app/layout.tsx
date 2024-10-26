@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { monserrat } from "@/ui/fonts";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -25,9 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={ `${monserrat.className} min-w-80 min-h-full`}>
         {children}
       </body>
     </html>
