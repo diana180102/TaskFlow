@@ -7,12 +7,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 function Register() {
+
+   function handleSubmit (){
+    const data = (formData: FormData) =>{
+
+    }
+  }
+
   return (
     <div className="bg-slate-200 h-full flex justify-center items-center p-4">
       <section className="container-register bg-white  w-[700px]  flex flex-col-reverse lg:flex-row rounded-xl shadow-md">
         {/* FORM */}
         <div className="container-form p-8 lg:w-1/2">
-          <form className="max-w-sm mx-auto flex flex-col justify-center mb-4">
+          <form className="max-w-sm mx-auto flex flex-col justify-center mb-4" action={handleSubmit}>
             {/* Full Name*/}
             <div className="mb-5">
               <label
@@ -59,7 +66,7 @@ function Register() {
               />
             </div>
 
-            <Button className="btn-cyan ">Register Now</Button>
+            <Button className="btn-cyan " type="submit">Register Now</Button>
 
             
             
