@@ -1,7 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { UserRegister } from "@/types/users";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  name: "",
+
+
+
+const initialState:UserRegister = {
+  fullName: "",
   email: "",
   password: ""
 }
@@ -10,16 +14,18 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers:{
-        setUserData: (state, action) =>{
+        setUserData: (state, action:PayloadAction<UserRegister>) =>{
             const {email, password} = action.payload;
             state.email = email;
-            state.password = password;
+            
         },
-        setAddUser: (state, action) =>{
-            const {name, email, password} = action.payload;
-            state.name = name;
+        setAddUser: (state, action:PayloadAction<UserRegister>) =>{
+            console.log("Acción recibida:", JSON.stringify(action, null, 2));
+
+            const {fullName, email} = action.payload;
+            state.fullName = fullName;
             state.email = email;
-            state.password = password;
+            
         },
     }
 });

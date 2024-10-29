@@ -4,8 +4,10 @@ import Image from "next/image";
 import { archivo_black } from "@/ui/fonts";
 import Link from "next/link";
 
+
 export default function Home() {
   return (
+  
     <div className=" bg-[#1c2135] p-4 min-h-screen">
       <main className="min-h-screen m-auto flex items-center">
         <section className="flex flex-col-reverse lg:flex-row h-full items-center justify-center gap-8 ">
@@ -30,7 +32,8 @@ export default function Home() {
 
           </div>
           <div className="right-section ">
-            <Image 
+            <Image
+            
             src={"/assets/images/task2.png"} 
             alt="image-home" 
             width={700} 
@@ -41,5 +44,6 @@ export default function Home() {
       </main>
      
     </div>
+   
   );
 }
