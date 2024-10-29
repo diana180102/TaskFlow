@@ -1,18 +1,102 @@
-"use client"
+"use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { AppDispatch} from "@/redux/store";
+import { setAddUser } from "@/redux/userSlice";
+import { addUser } from "@/services/userService";
+import { UserRegister } from "@/types/users";
 import { faGooglePlus, faSquareGithub} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { signIn } from "next-auth/react";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+import {useDispatch} from "react-redux";
+
+
 
 function Register() {
+  
+  const dispatch:AppDispatch = useDispatch();
+
+  const router = useRouter();
+  
+  //Get data of form
+  const [formData, setFormData] = useState<UserRegister>({
+    fullName:"",
+    email: "",
+    password: ""
+  });
+
+
+
+
+
+  
+ 
+   
+
+  const handleChange = (e:ChangeEvent<HTMLInputElement>) =>{
+    const {name, value} = e.target;
+    setFormData((prevData) =>({
+      ...prevData, [name]: value,
+    }));
+    
+
+  }
+
+   async function  handleSubmit  (e:FormEvent<HTMLFormElement>){
+    e.preventDefault();
+    
+
+    try {
+      //send data to API
+      const response = await addUser(formData);
+     
+
+        //sent data to credentials
+        const result = await signIn('credentials',{
+          email: formData.email,
+          password: formData.password,
+          redirect:false,
+        });
+        
+
+       
+
+       
+
+        //update state context global
+          dispatch(setAddUser({
+            fullName: formData.email,
+            email: formData.email,
+            password: ""
+          }));
+
+        if(result?.error){
+          throw new Error (result.error);
+        }
+      
+        router.push("/dashboard");
+      
+
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+    
+    
+  }
+
   return (
     <div className="bg-slate-200 h-full flex justify-center items-center p-4">
       <section className="container-register bg-white  w-[700px]  flex flex-col-reverse lg:flex-row rounded-xl shadow-md">
         {/* FORM */}
         <div className="container-form p-8 lg:w-1/2">
-          <form className="max-w-sm mx-auto flex flex-col justify-center mb-4">
+          <form className="max-w-sm mx-auto flex flex-col justify-center mb-4" onSubmit={handleSubmit}>
             {/* Full Name*/}
             <div className="mb-5">
               <label
@@ -24,7 +108,11 @@ function Register() {
               <Input
                 type="text"
                 id="fullname"
+                name="fullName"
                 placeholder="Pepito Perez"
+                value={formData.fullName}
+                onChange={handleChange}
+                
                 required
               />
             </div>
@@ -39,7 +127,11 @@ function Register() {
               <Input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="name@flowbite.com"
+                value={formData.email}
+                onChange={handleChange}
+                
                 required
               />
             </div>
@@ -54,12 +146,15 @@ function Register() {
               <Input
                 type="password"
                 id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 
                 required
               />
             </div>
 
-            <Button className="btn-cyan ">Register Now</Button>
+            <Button className="btn-cyan " type="submit">Register Now</Button>
 
             
             
@@ -83,6 +178,8 @@ function Register() {
         {/* IMAGE */}
         <div className="container-image bg-[#1c2135] flex justify-center items-center lg:w-1/2  rounded-t-lg lg:rounded-r-lg">
              <Image 
+             priority={false}
+             loading = 'lazy'
             src={"/assets/images/task3.png"} 
             alt="image-home" 
             width={300} 
