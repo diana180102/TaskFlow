@@ -41,13 +41,13 @@ model Users {
   id Int @id @default(autoincrement())
   fullName String @db.VarChar(80)
   email String @unique @db.VarChar(80)
-  password String @db.VarChar(255)
+  password String  @db.VarChar(255)
   role Role @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
   projectsUsers Projects_users[]
-  providersUser Auth_providers[]
+  providersUser Account[]
   taskUser Task[]
 }
 
@@ -74,14 +74,20 @@ model Projects_users{
   @@id([userId, projectId]) 
 }
 
-model Auth_providers{
-  id Int @id @default(autoincrement())
-  provider String @db.VarChar(80)
-  userId Int
-  providerId String
-  createdAt DateTime @default(now())
-  
-  user Users @relation(fields: [userId], references: [id])
+model Account {
+  id                 String    @id @default(cuid())
+  userId             Int
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               Users     @relation(fields: [userId], references: [id])
+
+  @@unique([providerId, providerAccountId])
 }
 
 model Task{

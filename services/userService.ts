@@ -6,7 +6,7 @@ const URL = `/api/users`;
 export async function addUser(user:UserRegister){
   
    try {
-    const response = await axios.post(URL, user);
+    const response = await axios.post(URL);
     return response.data;
 
     
