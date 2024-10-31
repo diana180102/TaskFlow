@@ -8,7 +8,7 @@ interface Params {
 export async function GET(request: Request, { params }: Params) {
     try {
 
-        const user = await prisma.users.findFirst({
+        const user = await prisma.user.findFirst({
             where: {
                 email: params.email
             }
@@ -39,7 +39,7 @@ export async function PUT(request: Request, { params }: Params) {
     try {
         const {password, role}= await request.json();
 
-        const user = await prisma.users.update({
+        const user = await prisma.user.update({
             where: {
                 email: params.email
             },
@@ -74,7 +74,7 @@ export async function PUT(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
     try {
-        const user = await prisma.users.delete({
+        const user = await prisma.user.delete({
             where: {
                 email: params.email
             }

@@ -10,7 +10,7 @@ function Input({className, type = 'text', ...delegated}:InputProps) {
    const classname = className || "input-default";
 
      return ( 
-    <input {...delegated} className={classname} type={type}  /> 
+    <input  className={classname} type={type}  {...delegated} /> 
     );
 }
 

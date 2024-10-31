@@ -6,7 +6,12 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from 'bcrypt';
 import { AuthOptions, getServerSession } from "next-auth";
 
+import Github from "next-auth/providers/github";
+
+
+
 export const authOptions: AuthOptions = {
+   adapter: PrismaAdapter(prisma),
    providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -17,7 +22,7 @@ export const authOptions: AuthOptions = {
             async authorize(credentials, _req) {
                 console.log("Credenciales recibidas:", credentials);
 
-                const user = await prisma.users.findUnique({
+                const user = await prisma.user.findUnique({
                     where: { email: credentials?.email },
                 });
 
@@ -41,38 +46,107 @@ export const authOptions: AuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-    ],
+            authorization: {
+                params: {
+                prompt: "consent",
+                access_type: "offline",
+                response_type: "code",
+                },
+        },
+            
+        },
+        
+        ),
 
-    adapter: PrismaAdapter(prisma),
+        Github({
+            clientId: process.env.AUTH_GITHUB_ID!,
+            clientSecret: process.env.AUTH_GITHUB_SECRET!,
+        })
+    ],
+    debug:process.env.NODE_ENV ==='development' ,
+    
     session: { strategy: "jwt" },
     secret: process.env.AUTH_SECRET,
     pages: {
+        
         signIn: '/auth/login',
     },
 
     callbacks: {
-        //generate token
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
                 token.email = user.email;
-            }
-             
+                token.name= user.name
+            }    
             return token;
         },
-        //data of session after of JWT
-        async session({ session, token }: {session:any, token:any}) {
+
+        async session({ session, token }: { session: any, token: any }) {
             if (session.user) {
                 session.user.email = token.email as string;
                 session.user.id = token.id as string;
-                session.user.name = token.name; 
+                session.user.name = token.name as string;
             }
-            
             return session;
         },
-    },
+
+async signIn({ user, account, profile }) {
+
+    console.log("ACCOUNT :" + account)
     
+    const pass = await bcrypt.hash("NO_PASSWORD_AUTH", 10);
+   
+
+    if (account?.provider === "google" || account?.provider === "github" ) {
+        const existingUser = await prisma.user.findUnique({
+            where: { email: profile?.email }
+        });
+
+        if (!existingUser) {
+            const data = {
+                fullName: profile?.name || 'Usuario Google',                
+                email: profile?.email || '',  
+                password: pass
+            };
+
+            
+
+            if (!data.email) {
+                console.log("No se recibió un email válido del perfil de Google.");
+                return false; 
+            }
+
+            try {
+                const newUser = await prisma.user.create({ data });
+                console.log("Nuevo usuario creado:", newUser);
+
+                await prisma.account.create({
+                    data: {
+                        userId: newUser.id,
+                        providerType: "oauth",
+                        provider: account.provider,
+                        providerAccountId: account.providerAccountId,
+                    },
+                });
+            } catch (error) {
+                console.error("Error al crear usuario o cuenta:", error);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+    },
 };
 
 export async function auth() {

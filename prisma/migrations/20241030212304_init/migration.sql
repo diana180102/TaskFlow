@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "password" SET DEFAULT 'NO_PASSWORD_AUTH';
