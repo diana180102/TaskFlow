@@ -5,9 +5,9 @@ import prisma from "@/libs/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from 'bcrypt';
 import { AuthOptions, getServerSession } from "next-auth";
-import { addUser } from "./services/userService";
+
 import Github from "next-auth/providers/github";
-import { PrismaClient } from "@prisma/client";
+
 
 
 export const authOptions: AuthOptions = {
@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
             async authorize(credentials, _req) {
                 console.log("Credenciales recibidas:", credentials);
 
-                const user = await prisma.users.findUnique({
+                const user = await prisma.user.findUnique({
                     where: { email: credentials?.email },
                 });
 
@@ -68,6 +68,7 @@ export const authOptions: AuthOptions = {
     session: { strategy: "jwt" },
     secret: process.env.AUTH_SECRET,
     pages: {
+        
         signIn: '/auth/login',
     },
 
@@ -76,6 +77,7 @@ export const authOptions: AuthOptions = {
             if (user) {
                 token.id = user.id;
                 token.email = user.email;
+                token.name= user.name
             }    
             return token;
         },
@@ -84,57 +86,62 @@ export const authOptions: AuthOptions = {
             if (session.user) {
                 session.user.email = token.email as string;
                 session.user.id = token.id as string;
+                session.user.name = token.name as string;
             }
             return session;
         },
 
-        async signIn({ user, account, profile }) {
-    console.log("Intentando iniciar sesión con Google:", { account, profile }); console.log("Usuario:", user);
-        console.log("Cuenta:", account);
-        console.log("Perfil:", profile);
-       if (account?.provider === "google") {
-          try {
-            // Revisa si el usuario ya está registrado con Google
-            const existingProvider = await prisma.users.findUnique({
-                where: {
-                    email: profile?.email,
-                   },
-                
-            });
+async signIn({ user, account, profile }) {
 
-            console.log("Resultado de búsqueda del proveedor:", existingProvider);
+    console.log("ACCOUNT :" + account)
+    
+    const pass = await bcrypt.hash("NO_PASSWORD_AUTH", 10);
+   
 
-            if (existingProvider) {
-                console.log("Usuario ya registrado:", existingProvider.email);
-                return true;
-            }
+    if (account?.provider === "google" || account?.provider === "github" ) {
+        const existingUser = await prisma.user.findUnique({
+            where: { email: profile?.email }
+        });
 
-            console.log("No se encontró un usuario, creando uno nuevo.");
-            // Crear el usuario en la tabla de usuarios
+        if (!existingUser) {
+            const data = {
+                fullName: profile?.name || 'Usuario Google',                
+                email: profile?.email || '',  
+                password: pass
+            };
+
             
 
-            const newUser = await addUser({
-                    fullName: profile?.name?.toString() ?? '',
-                    email: profile?.email?.toString() ?? '',
-                    password: await bcrypt.hash("NO_PASSWORD_AUTH", 10)
-            });
+            if (!data.email) {
+                console.log("No se recibió un email válido del perfil de Google.");
+                return false; 
+            }
 
-            console.log("Nuevo usuario creado:",newUser);
+            try {
+                const newUser = await prisma.user.create({ data });
+                console.log("Nuevo usuario creado:", newUser);
 
-            // Asocia el proveedor de autenticación con el nuevo usuario
-             await prisma.account.crea
-
-            console.log("Proveedor Google vinculado con el nuevo usuario");
-            return true;
-
-        } catch (error) {
-            console.error("Error durante el registro con Google:", error);
-            return false;
+                await prisma.account.create({
+                    data: {
+                        userId: newUser.id,
+                        providerType: "oauth",
+                        provider: account.provider,
+                        providerAccountId: account.providerAccountId,
+                    },
+                });
+            } catch (error) {
+                console.error("Error al crear usuario o cuenta:", error);
+                return false;
+            }
         }
     }
 
-    return true; // Retorna true para otros proveedores de autenticación si existen.
+    return true;
 }
+
+
+
+
 
 
 

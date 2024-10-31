@@ -19,13 +19,12 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 function Register() {
- const { data: session } = useSession();
+const { data: session } = useSession();
  
  console.log(session);
   const dispatch: AppDispatch = useDispatch();
 
   const router = useRouter();
-
   //Get data of form
   const [formData, setFormData] = useState<UserRegister>({
     fullName: "",
@@ -50,10 +49,13 @@ function Register() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+
     try {
+    console.log(formData)
       //send data to API
       const response = await addUser(formData);
 
+      console.log("response register"+response )
       //sent data to credentials
       const result = await signIn("credentials", {
         email: formData.email,
@@ -63,19 +65,20 @@ function Register() {
 
       dispatch(setAddUser(formData));
 
+      
       if (result?.error) {
         throw new Error(result.error);
       }
-
       router.push("/dashboard");
+     
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <div className="bg-slate-200 h-full flex justify-center items-center p-4">
-      <section className="container-register bg-white  w-[700px]  flex flex-col-reverse lg:flex-row rounded-xl shadow-md">
+    <div className="bg-slate-200 min-h-screen flex justify-center items-center p-4">
+      <section className="container-register bg-white  lg:w-[700px]   flex flex-col-reverse lg:flex-row rounded-xl shadow-md">
         {/* FORM */}
         <div className="container-form p-8 lg:w-1/2">
           <form
@@ -85,14 +88,14 @@ function Register() {
             {/* Full Name*/}
             <div className="mb-5">
               <label
-                htmlFor="full"
+                htmlFor="fullName"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Your Full Name
               </label>
               <Input
                 type="text"
-                id="fullname"
+                id="fullName"
                 name="fullName"
                 placeholder="Pepito Perez"
                 value={formData.fullName}
@@ -159,7 +162,12 @@ function Register() {
               <FontAwesomeIcon icon={faGooglePlus} className="text-2xl" />{" "}
               Google
             </Button>
-            <Button className="btn-dark p-2 text-2xl lg:text-xl">
+            <Button
+             onClick={(e) => {
+                e.preventDefault(); // Evitar el envío del formulario
+               signIn("github", { callbackUrl: "/dashboard" });
+              }}
+             className="btn-dark p-2 text-2xl lg:text-xl">
               <FontAwesomeIcon icon={faSquareGithub} className="text-2xl" />{" "}
               GitHub
             </Button>
@@ -182,8 +190,8 @@ function Register() {
             src={"/assets/images/task3.png"}
             alt="image-home"
             width={300}
-            height={900}
-            className={`w-full`}
+            height={400}
+            className={`w-full h-1/2`}
           ></Image>
         </div>
       </section>
