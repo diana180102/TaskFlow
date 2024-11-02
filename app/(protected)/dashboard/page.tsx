@@ -1,11 +1,14 @@
 
 import { auth } from "@/auth";
+import Aside from "@/components/Aside";
 import Header from "@/components/Header";
 import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
+import React from "react";
 
 
 
-export default async function Dashboard() {
+export default async function Dashboard({children}: Readonly<{children:React.ReactNode}>) {
     
     // const {data:session} = useSession();
     //get data
@@ -13,17 +16,24 @@ export default async function Dashboard() {
     console.log("session " + session);
 
    
-
-    if (!session) {
-        
-        return <div>No estás autenticado</div>; // Cambia a la redirección directa si es necesario
-    }
+     
+   
 
     return (
-        <div>
-        <Header session= {session}></Header>
-            <p>Bienvenido, {session.user?.email}</p>
+        <>
+     { session &&  
+        <div className="w-full h-full bg-stone-500 flex flex-row">
+           <Aside></Aside>
+
+            <div className="w-full">
+                <Header session={session}></Header>
+                
+                {children}
+            </div>
             
+           
         </div>
+      }
+        </>
     );
 }

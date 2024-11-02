@@ -22,7 +22,8 @@ function Login() {
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
+    fullName: ""
   });
 
    useEffect(() => {
@@ -58,7 +59,7 @@ function Login() {
         throw new Error(result.error);
       }
 
-       dispatch(setLoginUser(formData));
+       dispatch(setAddUser({ fullName: formData.fullName, email: formData.email, password: formData.password }));
 
         
      } catch (error) {

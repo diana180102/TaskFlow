@@ -4,9 +4,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/libs/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from 'bcrypt';
-import { AuthOptions, getServerSession } from "next-auth";
+import { AuthOptions, getServerSession, Session } from "next-auth";
 
 import Github from "next-auth/providers/github";
+import { User } from "./types/users";
+import { AdapterUser } from "next-auth/adapters";
+import Email from "next-auth/providers/email";
 
 
 
@@ -74,18 +77,23 @@ export const authOptions: AuthOptions = {
 
     callbacks: {
         async jwt({ token, user }) {
+           
+            const users = user as unknown as User;
+
             if (user) {
-                token.id = user.id;
-                token.email = user.email;
-                token.name= user.name
-            }    
+                 token.id = user.id;
+            token.email = user.email;
+            token.name = users.fullName; // Cambia esto si estás usando 'fullName'
+            
+            
+            }  
             return token;
         },
 
-        async session({ session, token }: { session: any, token: any }) {
+        async session({ session, token }: { session: Session, token: any }) {
+          
             if (session.user) {
                 session.user.email = token.email as string;
-                session.user.id = token.id as string;
                 session.user.name = token.name as string;
             }
             return session;
@@ -93,7 +101,8 @@ export const authOptions: AuthOptions = {
 
 async signIn({ user, account, profile }) {
 
-    console.log("ACCOUNT :" + account)
+      console.log("Perfil del usuario:", profile); 
+   
     
     const pass = await bcrypt.hash("NO_PASSWORD_AUTH", 10);
    
@@ -129,11 +138,18 @@ async signIn({ user, account, profile }) {
                         providerAccountId: account.providerAccountId,
                     },
                 });
+
+                
+
+                
+
+                
             } catch (error) {
                 console.error("Error al crear usuario o cuenta:", error);
                 return false;
             }
         }
+
     }
 
     return true;
