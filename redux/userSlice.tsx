@@ -22,10 +22,11 @@ export const userSlice = createSlice({
         setAddUser: (state, action:PayloadAction<UserRegister>) =>{
             console.log("Acción recibida:", JSON.stringify(action, null, 2));
 
+            
+
             const {fullName, email} = action.payload;
             state.fullName = fullName;
             state.email = email;
-            
         },
     }
 });

@@ -9,16 +9,22 @@ datasource db {
 
 model User {
   id            Int              @id @default(autoincrement())
+  fullName      String           @db.VarChar(80)
   email         String           @unique @db.VarChar(150)
   password      String           @db.VarChar(255) @default("NO_PASSWORD_AUTH")
   role          Role             @default(USER)
+  image         String?
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
-  fullName      String           @db.VarChar(80)
   accounts Account[]
   projectsUsers Projects_users[]
   taskUser      Task[]
+  
+  
+
 }
+
+
 
 model Projects {
   id          Int              @id @default(autoincrement())
@@ -45,7 +51,7 @@ model Projects_users {
 model Account {
   userId             Int
   providerType       String
-  provider        String
+  provider           String
   providerAccountId  String
   refreshToken       String?
   accessToken        String?

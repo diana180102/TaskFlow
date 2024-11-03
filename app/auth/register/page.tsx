@@ -60,6 +60,7 @@ const { data: session } = useSession();
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
+        fullName: formData.fullName,
         redirect: false,
       });
 

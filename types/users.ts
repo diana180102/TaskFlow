@@ -1,8 +1,9 @@
 export interface User {
   id: number
-  fullname: string
+  fullName: string
   email: string
   password: string
+  image?: string
   role?: string
   createdAt?: Date
   updatedAt?: Date
