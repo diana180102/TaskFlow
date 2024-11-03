@@ -22,7 +22,7 @@ export default async function Dashboard({children}: Readonly<{children:React.Rea
     return (
         <>
      { session &&  
-        <div className="w-full h-full bg-stone-500 flex flex-row">
+        <div className="w-full h-full bg-[#1B1B1D] flex flex-row ">
            <Aside></Aside>
 
             <div className="w-full">

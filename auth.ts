@@ -76,16 +76,15 @@ export const authOptions: AuthOptions = {
     },
 
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, profile }) {
            
             const users = user as unknown as User;
 
             if (user) {
-                 token.id = user.id;
-            token.email = user.email;
-            token.name = users.fullName; // Cambia esto si estás usando 'fullName'
-            
-            
+                token.id = user.id;
+                token.email = user.email;
+                token.name = users.fullName;
+                token.picture = users.image; // Cambia esto si estás usando 'fullName'
             }  
             return token;
         },
@@ -95,6 +94,7 @@ export const authOptions: AuthOptions = {
             if (session.user) {
                 session.user.email = token.email as string;
                 session.user.name = token.name as string;
+               session.user.image = token.picture as string;
             }
             return session;
         },
@@ -102,6 +102,7 @@ export const authOptions: AuthOptions = {
 async signIn({ user, account, profile }) {
 
       console.log("Perfil del usuario:", profile); 
+      
    
     
     const pass = await bcrypt.hash("NO_PASSWORD_AUTH", 10);
