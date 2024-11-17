@@ -8,8 +8,8 @@ import { AuthOptions, getServerSession, Session } from "next-auth";
 
 import Github from "next-auth/providers/github";
 import { User } from "./types/users";
-import { AdapterUser } from "next-auth/adapters";
-import Email from "next-auth/providers/email";
+
+
 
 
 
@@ -76,7 +76,7 @@ export const authOptions: AuthOptions = {
     },
 
     callbacks: {
-        async jwt({ token, user, profile }) {
+        async jwt({ token, user }) {
            
             const users = user as unknown as User;
 
@@ -84,7 +84,7 @@ export const authOptions: AuthOptions = {
                 token.id = user.id;
                 token.email = user.email;
                 token.name = users.fullName;
-                token.picture = users.image; // Cambia esto si estás usando 'fullName'
+               
             }  
             return token;
         },
@@ -94,7 +94,7 @@ export const authOptions: AuthOptions = {
             if (session.user) {
                 session.user.email = token.email as string;
                 session.user.name = token.name as string;
-               session.user.image = token.picture as string;
+              
             }
             return session;
         },
