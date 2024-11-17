@@ -27,7 +27,7 @@ export default async function RootLayout({children}: Readonly<{children: React.R
   
   return (
     <html lang="en">
-      <body className={ `${monserrat.className} min-w-80 min-h-full`}>
+      <body className={ `${monserrat.className} min-w-[480px] min-h-full`}>
 
        <ReduxProvider session={session}>
         
