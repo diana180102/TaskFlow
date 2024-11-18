@@ -2,8 +2,6 @@
 import { auth } from "@/auth";
 import Aside from "@/components/Aside";
 import Header from "@/components/Header";
-import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
 import React from "react";
 
 
@@ -13,7 +11,7 @@ export default async function DashboardLayaout({children}: Readonly<{children:Re
     // const {data:session} = useSession();
     //get data
     const session = await auth();
-    console.log("session " + session);
+    
 
    
      
@@ -22,7 +20,7 @@ export default async function DashboardLayaout({children}: Readonly<{children:Re
     return (
         <>
      { session &&  
-        <div className=" w-full bg-[#1B1B1D] flex flex-row min-w-[600px] min-h-screen  ">
+        <div className=" w-full bg-gray-200 flex flex-row min-w-[600px] min-h-screen  ">
            <Aside></Aside>
 
             <div className="w-full flex flex-col items-center  ">

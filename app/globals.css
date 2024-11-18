@@ -17,6 +17,8 @@ body {
   min-height: 100%;
 }
 
+
+
 @layer components {
   .btn-cyan {
     @apply 
@@ -74,6 +76,11 @@ body {
 
 
   }
+
+
+}
+
+@layer utilities{
 
 
 }

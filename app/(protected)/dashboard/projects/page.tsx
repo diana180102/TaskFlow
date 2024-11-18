@@ -1,9 +1,17 @@
-import DashboardLayaout from "@/components/layaout/dashboardLayaout";
 
-function Projects() {
+
+import DashboardLayaout from "@/components/layaout/dashboardLayaout";
+import Projects from "@/components/layaout/Project";
+
+
+
+function ProjectsPage() {
+
     return ( 
-    <DashboardLayaout> <p>Projects</p></DashboardLayaout>
+    <DashboardLayaout> 
+      <Projects />
+    </DashboardLayaout>
      );
 }
 
-export default Projects;
+export default ProjectsPage;
