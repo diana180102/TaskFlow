@@ -10,11 +10,11 @@ const DonutChart: React.FC = () => {
   // Opciones del gráfico con tipado ApexOptions
   const options: ApexOptions = {
     labels: ['Hechas', 'En Progreso', 'Pendientes'],
-    colors: ['#16DB65', '#00A6ED', '#FF8360'],
+    colors: ['#13c920', '#f78a0b', '#c82168'],
     legend: {
       position: 'bottom',
       labels: {
-      colors: ['#16DB65', '#00A6ED', '#FF8360'], // Cambia el color de los nombres en la leyenda
+      colors: ['#13c920', '#f78a0b', '#c82168'], // Cambia el color de los nombres en la leyenda
     }
     },
     stroke: {
@@ -38,7 +38,7 @@ const DonutChart: React.FC = () => {
 
   return (
     <div>
-      <Chart className="" options={options} series={series} type="donut" width="280" />
+      <Chart className="" options={options} series={series} type="donut" width="320" />
     </div>
   );
 };
