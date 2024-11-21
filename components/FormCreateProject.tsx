@@ -6,17 +6,37 @@ import Modal from "./Modal";
 import { RootState } from "@/redux/store";
 import { closeModal } from "@/redux/modalSlice";
 import Button from "./Button";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, use, useEffect, useId, useState } from "react";
+import { searchUsers } from "@/services/searchService";
+import { User } from "@/types/users";
+import { useSession } from "next-auth/react";
+import { getUser } from "@/services/userService";
+import { createProject } from "@/services/projectService";
+import { Project } from "@/types/projects";
+
+import { Status_project, Role } from "@/enums/enum";
+import { createProjectUser } from "@/services/projectUserService";
+
 
 function CreateProject() {
+
     
     const [formData, setFormData] = useState({
       name: "",
       description: "",
-      users: []
-     });
+    }); 
 
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResult, setSearchResult] = useState<User[]>([]); // Result of search
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]); // Selected users
+    const [isLoading, setIsLoading] = useState(false); // State for loading indicator"
 
+     
+    const {data:session} = useSession();  // data of session
+
+ 
+
+     // Function to handle input changes
      function handleChange (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) {
         const {name, value} = e.target;
         setFormData((prevData ) =>({
@@ -25,9 +45,118 @@ function CreateProject() {
         }));
      }
 
+     // Function to handle input changes Search
+     function handleChangeSearch( e:  ChangeEvent<HTMLInputElement> ){
+        const query = e.target.value;
+        setSearchQuery(query);
+        
+      }
+      
+     // Function to handle form submission  
+     async function handleSubmit(e: React.FormEvent){
+        e.preventDefault();
+
+        setIsLoading(true);
+
+         try {
+            
+
+            const projectData: Partial<Project> = {
+              ...formData,
+            };
+
+            const project = await createProject(projectData);
+
+            const emailUser = session?.user?.email;
+            console.log(emailUser);
+
+            if(emailUser){
+              const existingUser = await getUser(emailUser);
+              
+              if(existingUser){
+                const creatorProject = {
+                  projectId: project.id,
+                  userId: existingUser.id,
+                  role: Role.ADMIN,
+                }
+
+                await createProjectUser(creatorProject);
+            }else{
+              console.warn("User not found");
+            }
+          }
+
+
+            const userAdd = selectedUsers.map((user) => {
+                return createProjectUser({
+                  userId: user.id,
+                  projectId: project.id,
+                  role: Role.USER,
+                });
+              });
+
+           await Promise.all(userAdd);
+
+           setFormData({ name: "", description: "" });
+            setSelectedUsers([]);
+            setSearchQuery("");
+            setSearchResult([]);
+         } catch (error) {
+           console.error("Error al crear el proyecto:", error);
+         } finally {
+          setIsLoading(false); 
+          dispatch(closeModal()); 
+         }
+        
+      }
+
+    // Function for Add User to project
+    function handleAddUser(e: React.MouseEvent<HTMLButtonElement>, user: User){
+        e.preventDefault();
+         e.stopPropagation();
+
+        if(!selectedUsers.find(selected => selected.id === user.id)){
+           setSelectedUsers((prev) => [...prev, user]);
+        }
+
+       
+    }
+    
+    // Function for Remove User to project
+    function handleRemoveUser(e: React.MouseEvent<HTMLButtonElement>, user: User){
+       e.preventDefault();
+        e.stopPropagation();
+        setSelectedUsers((prev) => prev.filter((selected) => selected.id !== user.id));
+    }
+
+       useEffect(() =>{
+         setIsLoading(true);   
+            if(searchQuery.trim() === ''){
+              setSearchResult([]);
+              return;
+            }
+
+           const fetchUser = async () =>{
+              
+              try {
+                const data = await searchUsers(searchQuery);
+                setSearchResult(data);
+                console.log("data",data);
+
+              } catch (error) {
+                 console.error("Error finding user ",error);
+              }
+           }
+
+           fetchUser();
+
+        },[searchQuery]);
+
+   
+
     
     
-    const isModelOpen = useSelector((state:RootState) => state.modal.isModalOpen);
+    const isModelOpen = useSelector((state:RootState) => state.modal.isModalOpen);  // State for the modal
     const dispatch = useDispatch();
 
     if(!isModelOpen) return null;
@@ -41,7 +170,7 @@ function CreateProject() {
         >
           X
         </button>
-       <form  className="flex flex-col gap-4">
+       <form  className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title project</label>
             <Input className="" 
@@ -60,13 +189,30 @@ function CreateProject() {
             ></textarea>
           </div>
 
-          <div>
+
+        <div>
             <label htmlFor="users" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invite Members</label>
-           <Input name="users" value={formData.users} onChange={handleChange} ></Input>
+           <Input name="users"  onChange={handleChangeSearch} ></Input>
+          <div className="flex flex-col mt-2">
+           {isLoading && (
+            searchResult.map(user => (
+              <Button className="bg-gray-100 hover:bg-gray-300 rounded-sm text-sm text-start p-2 " key={user.id} onClick={(e) => handleAddUser(e, user)} >{user.fullName || user.email } <span className="text-xs text-slate-600">{user.email}</span>  </Button>
+            ))
+           )}
+           </div>
           </div>
 
-          <Button  className="bg-orange-600 text-gray-100 p-2 rounded-md">Create Project</Button>
+            <div className="flex flex-row gap-2 flex-flex-wrap text-xs  ">
+              {selectedUsers.map(user => (
+                <Button onClick={(e) => handleRemoveUser(e, user)} key={user.id} className="bg-slate-400 hover:bg-slate-700 text-zinc-100 p-2 rounded-xl">
+                    {user.fullName || user.email}
+                </Button>
+              ))}
+          </div>
 
+
+          <Button  className="bg-orange-600 text-gray-100 p-2 rounded-md">Create Project</Button>
+          
 
        </form>
       </Modal>

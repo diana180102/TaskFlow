@@ -16,6 +16,7 @@ import { User } from "./types/users";
 export const authOptions: AuthOptions = {
    adapter: PrismaAdapter(prisma),
    providers: [
+        // Login with credentials
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -80,6 +81,8 @@ export const authOptions: AuthOptions = {
            
             const users = user as unknown as User;
 
+            // console.log("user id"+ users.id)
+
             if (user) {
                 token.id = user.id;
                 token.email = user.email;
@@ -92,18 +95,21 @@ export const authOptions: AuthOptions = {
         async session({ session, token }: { session: Session, token: any }) {
           
             if (session.user) {
+                
                 session.user.email = token.email as string;
                 session.user.name = token.name as string;
               
             }
+       
             return session;
         },
 
 async signIn({ user, account, profile }) {
 
-      console.log("Perfil del usuario:", profile); 
+    //   console.log("Perfil del usuario:", profile); 
+     
       
-   
+     
     
     const pass = await bcrypt.hash("NO_PASSWORD_AUTH", 10);
    
@@ -129,7 +135,7 @@ async signIn({ user, account, profile }) {
 
             try {
                 const newUser = await prisma.user.create({ data });
-                console.log("Nuevo usuario creado:", newUser);
+                // console.log("Nuevo usuario creado:", newUser);
 
                 await prisma.account.create({
                     data: {

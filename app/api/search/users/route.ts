@@ -17,7 +17,7 @@ export async function GET(request:NextRequest) {
                     {email: {contains: query, mode: 'insensitive'}}
                 ],
             },
-            select: { fullName: true},
+            select: {id: true, email: true, fullName: true},
             take: 3
         });
 

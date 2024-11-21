@@ -9,6 +9,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ReduxProvider } from "@/redux/provider";
 import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/auth";
 
 
 config.autoAddCss = false
@@ -22,7 +24,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
    //get session user
-   const session = await getSession();
+  //  const session = await getSession();
+    const session = await getServerSession(authOptions);
    
   
   return (
