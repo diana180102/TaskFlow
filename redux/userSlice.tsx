@@ -18,6 +18,7 @@ export const userSlice = createSlice({
             const {email, password} = action.payload;
             state.email = email;
             
+            
         },
         setAddUser: (state, action:PayloadAction<UserRegister>) =>{
             console.log("Acción recibida:", JSON.stringify(action, null, 2));

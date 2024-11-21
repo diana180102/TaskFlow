@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiProjects = `/api/projects`;
 
-export async function createProject(project:Project){
+export async function createProject(project:Partial<Project>){
     try {
         const res = await axios.post(apiProjects, project);
         return res.data;
@@ -29,4 +29,6 @@ export async function getProjects() {
         }
     }
 }
+
+
 

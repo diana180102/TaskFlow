@@ -29,10 +29,23 @@ export async function getUsers() {
 
      } catch (error) {
          if(axios.isAxiosError(error)){
-            console.log("Error in get Project:", error.response?.data || error.message)
+            console.log("Error in get users:", error.response?.data || error.message)
         }else{
             console.log("Error inesperado: ", error);
         }
      }
+}
+
+export async function getUser(email:string) {
+  try {
+    const res = await axios.get(`${URL}/${email}`);
+    return res.data
+  } catch (error) {
+      if(axios.isAxiosError(error)){
+        console.log("Error in get user:", error.response?.data || error.message)
+      }else{
+        console.log("Error inesperado: ", error);
+      }
+  }
 }
 
