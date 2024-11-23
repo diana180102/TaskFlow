@@ -16,7 +16,7 @@ export enum Priority {
 }
 
 export enum Status_project {
-  ESTABLISHED,
-  PROGRESS,
-  COMPLETED
+  ESTABLISHED = 'ESTABLISHED',
+  PROGRESS = 'PROGRESS',
+  COMPLETED = 'COMPLETED'
 }
