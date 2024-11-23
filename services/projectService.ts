@@ -30,5 +30,18 @@ export async function getProjects() {
     }
 }
 
+export async function updateProject(project:Partial<Project>, id:number){
+    try {
+        const res = await axios.put(apiProjects+`/${id}`, project);
+        return res.data;
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+            console.log("Error in update Project:", error.response?.data || error.message)
+        }else{
+            console.log("Error inesperado: ", error);
+        }
+    }
+}
+
 
 
