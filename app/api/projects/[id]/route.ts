@@ -9,6 +9,17 @@ interface Params {
 
 export async function PUT (request:Request, {params}:Params){
     try {
+
+       const id = await params.id;
+       
+        
+       if (!id) {
+            return NextResponse.json(
+                { message: "El ID del proyecto no fue proporcionado." },
+                { status: 400 }
+            );
+        }
+
         const projectId = parseInt(params.id);
         const data = await request.json();
 
@@ -35,6 +46,14 @@ export async function PUT (request:Request, {params}:Params){
 
 export async function DELETE(request:Request, {params}:Params) {
     try {
+
+          if (!params?.id) {
+            return NextResponse.json(
+                { message: "El ID del proyecto no fue proporcionado." },
+                { status: 400 }
+            );
+        }
+        
          const projectId = parseInt(params.id);
 
           await prisma.projects.delete({
