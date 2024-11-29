@@ -1,23 +1,24 @@
 // store/modalSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { Payload } from "@prisma/client/runtime/library";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalState {
-  isModalOpen: boolean;
+  isModalOpen: string | null;
 }
 
 const initialState: ModalState = {
-  isModalOpen: false,
+  isModalOpen: null,
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state) => {
-      state.isModalOpen = true;
+    openModal: (state, action:PayloadAction<string>) => {
+      state.isModalOpen = action.payload;
     },
     closeModal: (state) => {
-      state.isModalOpen = false;
+      state.isModalOpen = null;
     },
   },
 });
