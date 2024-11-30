@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import modalReducer from "./modalSlice";
 import projectReducer from "./projectSlice";
-
+import dropdownReducer from "./dropdownSlice";
 
 // ...
 
@@ -10,8 +10,8 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     modal: modalReducer,
-    project: projectReducer
-    
+    project: projectReducer,
+    dropdown: dropdownReducer
    
   },
 });
