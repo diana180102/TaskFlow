@@ -43,5 +43,18 @@ export async function updateProject(project:Partial<Project>, id:number){
     }
 }
 
+export async function deleteProject(id:number){
+    try {
+        const res = await axios.delete(apiProjects+`/${id}`);
+        return res.data;
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+            console.log("Error in delete Project:", error.response?.data || error.message)
+        }else{
+            console.log("Error inesperado: ", error);
+        }
+    }
+}
+
 
 

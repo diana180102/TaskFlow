@@ -8,7 +8,7 @@ import React from "react";
 
 export default async function DashboardLayaout({children}: Readonly<{children:React.ReactNode}>) {
     
-    // const {data:session} = useSession();
+    
     //get data
     const session = await auth();
     
