@@ -6,6 +6,27 @@ interface Params {
     params: { id: string }
 }
 
+export async function GET(request:Request, {params}:Params){
+    try {
+        const id = await params.id;
+        const project = await prisma.projects.findUnique({
+            where: {id: parseInt(id)}
+        });
+        return NextResponse.json(project);
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json(
+                {
+                message: error.message,
+                },
+                {
+                status: 500,
+                }
+            );
+        }
+    }
+}
+
 
 export async function PUT (request:Request, {params}:Params){
     try {

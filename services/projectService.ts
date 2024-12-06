@@ -17,6 +17,21 @@ export async function createProject(project:Partial<Project>){
     }
 }
 
+export async function getProjectById(id:number){
+    try {
+        const res = await axios.get(apiProjects+`/${id}`);
+        return res.data;
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+        console.log("Error create project:", error.response?.data || error.message);
+       }else{
+        console.log("Error inesperado: ", error);
+       }
+       throw error;
+    }
+    
+}
+
 export async function getProjects() {
     try {
         const res = await axios.get(apiProjects);
