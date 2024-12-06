@@ -46,7 +46,7 @@ function CreateProject() {
      }
 
      // Function to handle input changes Search
-     function handleChangeSearch( e:  ChangeEvent<HTMLInputElement> ){
+     function handleChangeSearch( e: ChangeEvent<HTMLInputElement> ){
         const query = e.target.value;
         setSearchQuery(query);
         
@@ -197,7 +197,10 @@ function CreateProject() {
           <div className="flex flex-col mt-2">
            {isLoading && (
             searchResult.map(user => (
-              <Button className="bg-gray-100 hover:bg-gray-300 rounded-sm text-sm text-start p-2 " key={user.id} onClick={(e) => handleAddUser(e, user)} >{user.fullName || user.email } <span className="text-xs text-slate-600">{user.email}</span>  </Button>
+              <Button 
+              className="bg-gray-100 hover:bg-gray-300 rounded-sm text-sm text-start p-2 " 
+              key={user.id} 
+              onClick={(e) => handleAddUser(e, user)} >{user.fullName || user.email } <span className="text-xs text-slate-600">{user.email}</span>  </Button>
             ))
            )}
            </div>
