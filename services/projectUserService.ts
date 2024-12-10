@@ -36,3 +36,22 @@ export async function createProjectUser(project: Partial<ProjectsUser> ) {
         }
     }
 }
+
+export async function deleteProjectUser(projectId: number, userId: number) {
+    try {
+
+        const res = await axios.delete(`${apiProjectUser}/${projectId}`,{
+            data: {
+                userId
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+            console.log("Error in delete Project User:", error.response?.data || error.message)
+        }else{
+            console.log("Error inesperado: ", error);
+        }
+    }
+}
