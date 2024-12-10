@@ -15,6 +15,7 @@ import { Role } from "@/enums/enum";
 import { set } from "date-fns";
 import { ProjectsUser } from "@/types/projects";
 import { CircleX } from "lucide-react";
+import TaskList from "../TaskList";
 
 
 interface ProjectDetailsProps {
@@ -167,7 +168,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
     
     return ( 
     
-      <section className="bg-zinc-50 flex flex-col lg:flex-row gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-4" >
+      <section className="bg-zinc-50 flex flex-col  gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-4" >
         <div className="project flex flex-col lg:flex-row gap-4 w-full ">
             {/* Details */}
             <div className="detailsProject shadow-lg p-4 bg-gray-200 rounded-lg flex flex-col gap-4 w-full lg:w-[30%] justify-center items-start ">
@@ -219,7 +220,11 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                 
             </div>
         </div>
-        <div className="list-Task"></div>
+
+        {/* List of tasks */}
+        <div className="list-Task bg-orange-500 rounded-lg p-4 flex flex-col gap-4 w-full  shadow-md">
+            <TaskList></TaskList>
+        </div>
       </section>
     );
 }

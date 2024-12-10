@@ -1,5 +1,4 @@
 // store/modalSlice.js
-import { Payload } from "@prisma/client/runtime/library";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalState {
