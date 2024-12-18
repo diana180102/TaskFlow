@@ -3,6 +3,7 @@ import userReducer from './userSlice';
 import modalReducer from "./modalSlice";
 import projectReducer from "./projectSlice";
 import dropdownReducer from "./dropdownSlice";
+import taskReducer from "./taskSlice";
 
 // ...
 
@@ -11,7 +12,8 @@ export const store = configureStore({
     user: userReducer,
     modal: modalReducer,
     project: projectReducer,
-    dropdown: dropdownReducer
+    dropdown: dropdownReducer,
+    task: taskReducer
    
   },
 });

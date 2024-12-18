@@ -4,15 +4,15 @@ export enum Role {
 }
 
 export enum Status {
-  PENDING,
-  PROGRESS,
-  COMPLETED
+  PENDING  = 'PENDING',
+  PROGRESS = 'PROGRESS',
+  COMPLETED = 'COMPLETED'
 }
 
 export enum Priority {
-  LOW,
-  MEDIUM,
-  HIGH
+  LOW  = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH'
 }
 
 export enum Status_project {

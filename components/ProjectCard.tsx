@@ -5,12 +5,12 @@ import { Ellipsis, PencilRuler } from "lucide-react";
 import { monserrat, archivo_black } from "@/ui/fonts";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "@/redux/modalSlice";
+
 import FormUpdateProject from "./FormUpdateProject";
 import { RootState } from "@/redux/store";
 import { Project } from "@/types/projects";
 import { selectProject, setProject } from "@/redux/projectSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Dropdown from "./Dropdown";
 
@@ -19,6 +19,13 @@ function ProjectCard({ id }: Partial<Project>) {
   const project = useSelector((state: RootState) =>
     state.project.projects.find((p) => p.id === id)
   );
+
+ useEffect(() => { 
+    if (id !== undefined) { 
+      console.log("Dispatching project ID:", id);
+      dispatch(selectProject(Number(id))); 
+      } 
+  }, []);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
    function handleDropdown() 

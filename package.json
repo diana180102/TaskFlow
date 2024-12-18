@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "  ts-node src/db/scripts/dbMigrate.ts",
+    "db:create": " ts-node src/db/scripts/dbCreate.ts",
+    "db:drop": "  ts-node src/db/scripts/dbDrop.ts && rm -f src/db/migrations/migrations.json",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate up"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
@@ -16,7 +20,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hello-pangea/dnd": "^17.0.0",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^6.0.1",
     "@reduxjs/toolkit": "^2.3.0",
     "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
@@ -42,7 +46,7 @@
     "eslint": "9.13.0",
     "eslint-config-next": "15.0.1",
     "postcss": "^8.4.49",
-    "prisma": "^5.22.0",
+    "prisma": "^6.0.1",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3"
   }

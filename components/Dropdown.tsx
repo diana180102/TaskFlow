@@ -3,18 +3,21 @@ import Link from "next/link";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { deletedProject } from "@/redux/projectSlice";
+import { deletedProject, selectProject } from "@/redux/projectSlice";
 import { openModal } from "@/redux/modalSlice";
 import { deleteProject } from "@/services/projectService";
 
+
 function Dropdown({projectId}:{projectId:number}) {
 
+    const dispatch = useDispatch();
     const nameProject = useSelector((state: RootState) =>
     state.project.projects.find((p) => p.id === projectId)
     );
     
    
-    const dispatch = useDispatch();
+
+    
 
     //Update project
     function handleOpenModal() {

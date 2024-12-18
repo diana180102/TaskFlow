@@ -1,46 +1,281 @@
+"use client";
+import { useDispatch, useSelector } from "react-redux";
 import Input from "./Input";
+import Modal from "./Modal";
+import { RootState } from "@/redux/store";
+import Button from "./Button";
+import { closeModal } from "@/redux/modalSlice";
+import {  useEffect, useState } from "react";
+import { Priority, Status } from "@/enums/enum";
+import { User } from "@/types/users";
+import { createTask, getTaskById, updateTask } from "@/services/taskService";
+import { getAllTaskUsers } from "@/services/taskUserService";
+import { Task } from "@prisma/client";
 
-function FormTask() {
+
+type ModalState = "updateTask" | "createTask" | null;
+
+function FormTask({user, projectId}:{projectId:number, user:User[]}) {
     
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state: RootState) => state.modal.isModalOpen);
+    const selectedTaskId = useSelector((state: RootState) => state.task.taskId);
+    const assignedUsers = useSelector((state: RootState) => state.task.taskUser);
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResult, setSearchResult] = useState<User[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<Partial<User>[]>([]);
+    const [task, setTask] = useState({
+        title: "",
+        description: "",
+        priority: Priority.LOW,
+        status: Status.PROGRESS,
+        projectId: projectId,
+        
+        });
+
+
+
+    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setSearchQuery(e.target.value);
+
+    };
+     
+     //search users 
+     useEffect(() => {
+        if (searchQuery) {
+            const filteredUsers = user.filter((user) =>
+                user.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.email.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setSearchResult(filteredUsers);
+        } else {
+            setSearchResult([]);
+        }
+    }, [searchQuery, user]);
+
+    
+
+
+
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setTask((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+    }
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const taskData = {
+            ...task,
+            assignedUserIds: selectedUsers.map((user) => Number(user.id))
+        };
+
+        
+        
+        try {
+            
+            // create task
+           
+
+
+            if(isModalOpen === "createTask"){
+                await createTask(taskData);
+                    setTask({
+                        title: "",
+                        description: "",
+                        priority: Priority.LOW,
+                        status: Status.PROGRESS,
+                        projectId: projectId,
+                    });
+            }else if(isModalOpen === "updateTask"){
+                
+                if (selectedTaskId !== undefined) {
+                     await updateTask(taskData, selectedTaskId);
+                }
+            }
+
+           
+           
+
+            setSelectedUsers([]);
+            setSearchQuery("");
+            setSearchResult([]);
+            
+        } catch (error) {
+            console.log(error);
+        }finally{
+            dispatch(closeModal());
+        }
+
+       
+    }
+
+
+ useEffect(() => {
+    if (isModalOpen === "updateTask" && selectedTaskId) {
+      const loadTaskData = async () => {
+        try {
+          const taskData = await getTaskById(selectedTaskId, projectId);
+          setTask({
+            title: taskData.title,
+            description: taskData.description,
+            priority: taskData.priority,
+            status: taskData.status,
+            projectId: taskData.projectId,
+          });
+
+            const taskFindUsers = assignedUsers
+          .filter((task) => task.taskId === selectedTaskId)
+          .map((task) => ({
+            id: task.user.id,
+            fullName: task.user.fullName,
+            email: task.user.email,
+            }));
+          
+          
+         
+
+          setSelectedUsers(taskFindUsers);
+        } catch (error) {
+          console.log("Failed to load task data", error);
+        }
+      };
+
+      loadTaskData();
+    }
+  }, [isModalOpen, selectedTaskId]);
+
+    
+    if (!isModalOpen) return null;
     
     
     return ( 
-         <form action="#">
+        <>
+        
+  {(isModalOpen === "createTask" || isModalOpen === "updateTask" ) && ( 
+     <Modal>
+         <form onSubmit={handleSubmit} className="relative">
+         <button
+          onClick={() => dispatch(closeModal())}
+          className="absolute top-[-40px] right-[-40px] bg-zinc-800 text-white rounded-full p-2 hover:bg-red-600 w-8 h-8 flex justify-center items-center"
+        >
+          X
+        </button>
                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                    <div>
+                    <div className="sm:col-span-2">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name Task</label>
-                        <Input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required> </Input>
+                        <Input  
+                        name="title" 
+                        id="name" 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                        placeholder="Name of task"
+                        value={task.title} 
+                        onChange={handleChange}
+                        required /> 
                     </div>
-                    <div>
-                        <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">AssigneTo</label>
-                        <Input type="text" name="brand" id="brand" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Product brand" required> </Input>
-                    </div>
+                    
                    <div>
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label><select id="category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option>Select category</option>
-                        <option value="TV">TV/Monitors</option>
-                        <option value="PC">PC</option>
-                        <option value="GA">Gaming/Console</option>
-                        <option value="PH">Phones</option></select>
+                        <label htmlFor="priority" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
+                        <select 
+                        id="priority" 
+                        name="priority"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        onChange={handleChange}
+                        value={task.priority}>
+                            <option>Select priority</option>
+                            {
+                                Object.values(Priority).map((priority) => (
+                                    <option 
+                                    className="" 
+                                    key={priority} 
+                                    value={priority}>{priority.charAt(0).toUpperCase() + priority.slice(1).toLowerCase()}</option>
+                                ))
+                            }
+                            
+                        </select>
                     </div>
                     <div>
-                        <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label><select id="category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option>Select category</option>
-                        <option value="TV">TV/Monitors</option>
-                        <option value="PC">PC</option>
-                        <option value="GA">Gaming/Console</option>
-                        <option value="PH">Phones</option></select>
+                        <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <select
+                         id="status" 
+                         name="status"
+                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                         onChange={handleChange}
+                         value={task.status}>
+                            <option>Select status</option>
+                            {
+                                Object.values(Status).map((status) => (
+                                    <option key={status} value={status}>{status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}</option>
+                                ))
+                            }
+                            
+                        </select>
                     </div>
+
+                    <div className="sm:col-span-2">
+                        <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">AssigneTo</label>
+                         <Input
+                         type="search"
+                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                         placeholder="Assign to member project"
+                         onChange={handleSearch}
+                         />
+
+                         <div className="flex flex-col">
+                           {
+                             searchResult.map((user) => (
+                                 <div 
+                                 key={user.id}
+                                 onClick={() => setSelectedUsers([...selectedUsers, user])} >
+                                     {user.fullName}
+
+                                 </div>
+                             ))
+                           }
+                         </div>
+
+                         <div>
+                            {
+                                selectedUsers.map((user) => (
+                                    <p key={user.id}>{user.fullName}</p>
+                                )) 
+                            }
+                         </div>
+                            
+                         
+                        
+                    </div>
+                    
                     <div className="sm:col-span-2">
                         <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write product description here"></textarea>
+                        <textarea 
+                        id="description" 
+                        name= "description"
+                        rows={4} 
+                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                        placeholder="Write task description"
+                        onChange = {handleChange}
+                        value={task.description}>
+                            
+                        </textarea>
                     </div>
                 </div>
-                <button type="submit" className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                <Button className="text-gray inline-flex items-center bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                    
-                    Add new task
-               </button>
+                  {isModalOpen === "updateTask" ? "Update Task" : "Create Task"}
+               </Button>
             </form>
+
+            </Modal>)
+       }
+        </>
      );
 }
 
