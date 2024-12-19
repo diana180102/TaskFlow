@@ -9,9 +9,14 @@ export interface Task {
   status: Status;          // Enum que representa los estados (e.g., PROGRESS, COMPLETED, etc.)
   priority: Priority;      // Enum que representa las prioridades (e.g., LOW, MEDIUM, HIGH, etc.)
   projectId: number;       // Relación con el proyecto
-  assignedTo: number;      // Relación con el usuario asignado
   createdAt: Date;
   updatedAt: Date;
   user: User;              // Usuario asignado
   project: Project;        // Proyecto relacionado
 }
+
+export interface TaskUser {
+  taskId: number;
+  userId: number;
+  user: User;
+  }

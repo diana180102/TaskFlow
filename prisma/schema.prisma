@@ -18,7 +18,7 @@ model User {
   updatedAt     DateTime         @updatedAt
   accounts Account[]
   projectsUsers Projects_users[]
-  taskUser      Task[]
+  taskUser      TaskAssignment[]
   
   
 
@@ -70,11 +70,19 @@ model Task {
   status      Status   @default(PROGRESS)
   priority    Priority @default(MEDIUM)
   projectId   Int
-  assignedTo  Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [assignedTo], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  assignedTo  TaskAssignment[]
+  
   project     Projects @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model TaskAssignment { 
+  taskId Int 
+  userId Int 
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  @@id([taskId, userId]) 
 }
 
 enum Role {

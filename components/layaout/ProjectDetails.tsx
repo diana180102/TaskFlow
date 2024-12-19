@@ -5,17 +5,17 @@ import { monserrat, archivo_black } from "@/ui/fonts";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../Search";
 import { searchUsers } from "@/services/searchService";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from "@/types/users";
 import Button from "../Button";
 import { createProjectUser, deleteProjectUser, getProjectUsers } from "@/services/projectUserService";
 import { getProjectById } from "@/services/projectService";
 import { setProject } from "@/redux/projectSlice";
 import { Role } from "@/enums/enum";
-import { set } from "date-fns";
-import { ProjectsUser } from "@/types/projects";
+
 import { CircleX } from "lucide-react";
 import TaskList from "../TaskList";
+import FormTask from "../FormTask";
 
 
 interface ProjectDetailsProps {
@@ -71,10 +71,10 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
          
           setUsers(usersData);
 
-          console.log("users", users);
+         
           
           
-          console.log("usersData", usersData  );
+         
           setIsLoading(false);
         } catch (error) {
           console.error("Error fetching users:", error);
@@ -184,7 +184,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                 <p className={`${archivo_black.className} font-bold text-2xl`}>Team</p>
                  
                 <div className="flex flex-col  w-full h-auto relative ">
-                <Search placerholder="Search member" onSearch={handleSearch}></Search>
+                <Search placeholder="Search member" onSearch={handleSearch}></Search>
                 <div className="absolute top-10 w-full bg-white z-10">
                {isLoading && 
                         ( 
@@ -223,8 +223,9 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
 
         {/* List of tasks */}
         <div className="list-Task bg-orange-500 rounded-lg p-4 flex flex-col gap-4 w-full  shadow-md">
-            <TaskList></TaskList>
+            <TaskList projectId={projectDetails.id}></TaskList>
         </div>
+        <FormTask user={users} projectId={projectDetails.id} />
       </section>
     );
 }
