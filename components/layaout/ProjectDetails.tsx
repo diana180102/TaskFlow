@@ -222,7 +222,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
         </div>
 
         {/* List of tasks */}
-        <div className="list-Task bg-orange-500 rounded-lg p-4 flex flex-col gap-4 w-full  shadow-md">
+        <div className="list-Task bg-orange-500 rounded-lg p-4 flex flex-col gap-4 w-full h-[736px]  shadow-md">
             <TaskList projectId={projectDetails.id}></TaskList>
         </div>
         <FormTask user={users} projectId={projectDetails.id} />
