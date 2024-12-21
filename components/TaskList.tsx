@@ -13,6 +13,8 @@ import { User } from "@/types/users";
 import { getAllTaskUsers} from "@/services/taskUserService";
 import TaskRow from "./TaskRow";
 import { assignaTask } from "@/redux/taskSlice";
+import Pagination from "./Pagination";
+
 
 
 type UserMap = { [taskId: number]: User[] }
@@ -22,9 +24,16 @@ function TaskList({ projectId }: { projectId: number }) {
   const [task, setTask] = useState<Task[]>([]);
   const [user, setUser] = useState<UserMap>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 10;
+
+
+
+
   
  
-
+  // get tasks
   useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true);
@@ -34,7 +43,15 @@ function TaskList({ projectId }: { projectId: number }) {
         const taskProject = data.tasks.filter(
           (task: Task) => task.projectId === projectId
         );
-        setTask(taskProject);
+
+        const totalTasks = taskProject.length;
+        setTotalPages(Math.ceil(totalTasks / pageSize));
+        const paginatedTasks = taskProject.slice(
+          (currentPage - 1) * pageSize, 
+          currentPage * pageSize
+        );
+
+        setTask(paginatedTasks);
 
         setIsLoading(false);
       } catch (error) {
@@ -43,11 +60,11 @@ function TaskList({ projectId }: { projectId: number }) {
       }
     };
     fetchTasks();
-  }, [projectId]);
+  }, [projectId, currentPage]);
 
 
   
-
+  // Get Task Users
   useEffect(() => {
     const fetchTask = async () => {
       try {
@@ -80,11 +97,16 @@ function TaskList({ projectId }: { projectId: number }) {
   }, [task]);
 
 
+    const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+
 
 
 
   return (
-    <div className="relative overflow-x-auto drop-shadow-lg sm:rounded-lg p-4 bg-slate-50">
+    <div className="relative overflow-x-auto drop-shadow-lg sm:rounded-lg p-4 bg-slate-50 h-[704px]">
       {/* search - header */}
       <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <div>
@@ -149,77 +171,8 @@ function TaskList({ projectId }: { projectId: number }) {
           </tbody>
         </table>
       )}
-      <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4">
-        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-          Showing{" "}
-          <span className="font-semibold text-gray-900 dark:text-white">
-            1-10
-          </span>{" "}
-          of{" "}
-          <span className="font-semibold text-gray-900 dark:text-white">
-            1000
-          </span>
-        </span>
-        <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              Previous
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              4
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              5
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              Next
-            </a>
-          </li>
-        </ul>
-      </nav>
+      {/* pagination */} 
+      <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} /> 
     </div>
   );
 }
