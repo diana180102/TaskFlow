@@ -7,7 +7,7 @@ import { openModal } from "@/redux/modalSlice";
 import { useEffect, useState } from "react";
 import { Task, TaskUser } from "@/types/tasks";
 
-import {  getTasks } from "@/services/taskService";
+import {  deleteTask, getTasks } from "@/services/taskService";
 
 import { User } from "@/types/users";
 import { getAllTaskUsers} from "@/services/taskUserService";
@@ -31,11 +31,7 @@ function TaskList({ projectId }: { projectId: number }) {
 
 
 
-  
- 
-  // get tasks
-  useEffect(() => {
-    const fetchTasks = async () => {
+  const fetchTasks = async () => {
       setIsLoading(true);
 
       try {
@@ -59,6 +55,9 @@ function TaskList({ projectId }: { projectId: number }) {
         setIsLoading(false);
       }
     };
+ 
+  // get tasks
+  useEffect(() => {
     fetchTasks();
   }, [projectId, currentPage]);
 
@@ -101,6 +100,15 @@ function TaskList({ projectId }: { projectId: number }) {
     setCurrentPage(page);
   };
 
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      await deleteTask(taskId);
+      fetchTasks(); 
+    } catch (error) {
+      console.log("error in delete task", error);
+    }
+  };
+
 
 
 
@@ -108,7 +116,7 @@ function TaskList({ projectId }: { projectId: number }) {
   return (
     <div className="relative overflow-x-auto drop-shadow-lg sm:rounded-lg p-4 bg-slate-50 h-[704px]">
       {/* search - header */}
-      <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+      <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <div>
           <Button
             className="inline-flex items-center text-white bg-gray-800 shadow-md border-gray-300 focus:outline-none hover:bg-orange-500 focus:ring-4 focus:ring-gray-100 font-bold rounded-md text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -157,6 +165,7 @@ function TaskList({ projectId }: { projectId: number }) {
               task.map((taskItem) => (
                 <TaskRow
                   key={taskItem.id}
+                  handleDeleteTask={handleDeleteTask}
                   taskItem={taskItem}
                   users={user[taskItem.id] || []}
                 />
