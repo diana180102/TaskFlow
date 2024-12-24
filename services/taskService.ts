@@ -62,3 +62,16 @@ export async function updateTask(task:Partial<Task>, id:number){
         }
     }
 }
+
+export async function deleteTask(id:number){  
+    try {
+        const res = await axios.delete(apiTasks+`/${id}`);
+        return res.data;
+    } catch (error) {
+        if(axios.isAxiosError(error)){
+            console.log("Error in delete task:", error.response?.data || error.message)
+        }else{
+            console.log("Error inesperado: ", error);
+        }
+    }
+ } 

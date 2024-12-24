@@ -4,8 +4,21 @@ import Button from "./Button";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/modalSlice";
 import { selectTask } from "@/redux/taskSlice";
+import { use, useEffect } from "react";
+import { deleteTask } from "@/services/taskService";
 
-function TaskRow({ taskItem, users }: { taskItem: Task; users: User[] }) {
+
+type TaskRowProps = {
+
+  taskItem: Task;
+
+  users: User[];
+
+  handleDeleteTask: (taskId: number) => Promise<void>;
+
+};
+
+function TaskRow({ taskItem, users, handleDeleteTask }: TaskRowProps) {
   
   const dispatch = useDispatch();
   
@@ -18,6 +31,12 @@ function TaskRow({ taskItem, users }: { taskItem: Task; users: User[] }) {
    
    }
 
+  
+
+ 
+   
+   
+
 
 
 return (
@@ -28,10 +47,14 @@ return (
       {<td className="px-6 py-4">
         {users && users.length > 0 ? users.map(user => <div key={taskItem.id}>{user.fullName}</div>) : "No users assigned" }
       </td>}
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 flex flex-row gap-1">
         <Button key={taskItem.id} onClick={() => handleOpenModal(taskItem.id)} className="text-blue-600 hover:underline">
           Edit
         </Button>
+        <Button 
+       
+        onClick={() => handleDeleteTask(taskItem.id)}
+        className="text-red-600 hover:underline">Delete</Button>
       </td>
     </tr>
   );

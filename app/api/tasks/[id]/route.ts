@@ -98,3 +98,37 @@ export async function PUT(request: Request, { params }: Params) {
     }
   }
 }
+
+export async function DELETE(request: Request, { params }: Params) {
+   try {
+       const id = await params.id;
+    
+    if (!id) {
+        return NextResponse.json(
+            { message: "El ID de la tarea no fue proporcionado." },
+            { status: 400 }
+        );
+    }
+    
+    const task = await prisma.task.delete({
+        where: {
+            id: parseInt(id)
+        }
+    });
+    
+    return NextResponse.json(task);
+    
+   } catch (error) {
+       if (error instanceof Error) {
+           return NextResponse.json(
+               {
+                   message: error.message,
+               },
+               {
+                   status: 500,
+               }
+           );
+       }
+    
+   }
+}
