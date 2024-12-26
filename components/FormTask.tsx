@@ -9,8 +9,9 @@ import {  useEffect, useState } from "react";
 import { Priority, Status } from "@/enums/enum";
 import { User } from "@/types/users";
 import { createTask, getTaskById, updateTask } from "@/services/taskService";
-import { getAllTaskUsers } from "@/services/taskUserService";
-import { Task } from "@prisma/client";
+import { X } from "lucide-react";
+import { addTask, updateTasks } from "@/redux/taskSlice";
+
 
 
 type ModalState = "updateTask" | "createTask" | null;
@@ -82,11 +83,8 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
         try {
             
             // create task
-           
-
-
-            if(isModalOpen === "createTask"){
-                await createTask(taskData);
+           if(isModalOpen === "createTask"){
+              const res =  await createTask(taskData);
                     setTask({
                         title: "",
                         description: "",
@@ -94,6 +92,7 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
                         status: Status.PROGRESS,
                         projectId: projectId,
                     });
+                    dispatch(addTask(res));
             }else if(isModalOpen === "updateTask"){
                 
                 if (selectedTaskId !== undefined) {
@@ -131,7 +130,9 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
             projectId: taskData.projectId,
           });
 
-            const taskFindUsers = assignedUsers
+          
+
+        const taskFindUsers = assignedUsers
           .filter((task) => task.taskId === selectedTaskId)
           .map((task) => ({
             id: task.user.id,
@@ -140,7 +141,7 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
             }));
           
           
-         
+           dispatch(updateTasks(taskData));
 
           setSelectedUsers(taskFindUsers);
         } catch (error) {
@@ -149,6 +150,15 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
       };
 
       loadTaskData();
+    }else{
+        setTask({
+            title: "",
+            description: "",
+            priority: Priority.LOW,
+            status: Status.PROGRESS,
+            projectId: projectId,
+        });
+        setSelectedUsers([]);
     }
   }, [isModalOpen, selectedTaskId]);
 
@@ -244,7 +254,11 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
                          <div>
                             {
                                 selectedUsers.map((user) => (
-                                    <p key={user.id}>{user.fullName}</p>
+                                    <div key={user.id}className="flex flex-row gap-2">
+                                        <p >{user.fullName}</p>
+                                       <Button onClick={() => setSelectedUsers(selectedUsers.filter((selected) => selected.id !== user.id))}><X /></Button> 
+                                    </div>
+
                                 )) 
                             }
                          </div>
