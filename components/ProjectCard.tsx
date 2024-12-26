@@ -22,7 +22,7 @@ function ProjectCard({ id }: Partial<Project>) {
 
  useEffect(() => { 
     if (id !== undefined) { 
-      console.log("Dispatching project ID:", id);
+    
       dispatch(selectProject(Number(id))); 
       } 
   }, []);

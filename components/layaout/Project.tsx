@@ -17,7 +17,7 @@ import {
   DropResult,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
-import { selectProject, setProject, setProjects } from "@/redux/projectSlice";
+import { addProject, selectProject, setProject, setProjects } from "@/redux/projectSlice";
 import { RootState } from "@/redux/store";
 
 function Projects() {
@@ -27,7 +27,6 @@ function Projects() {
 
   //Get projects
   const projects = useSelector((state: RootState) => state.project.projects);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const columns = {
@@ -38,7 +37,8 @@ function Projects() {
 
   projects.forEach((project: Project) => {
     const column = columns[project.status as DroppableId];
-    column.projects.push(project);
+    
+        column.projects.push(project);
   });
 
   useEffect(() => {

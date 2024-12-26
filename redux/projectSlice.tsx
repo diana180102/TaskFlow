@@ -35,6 +35,10 @@ export const projectSlice = createSlice({
             state.projects = action.payload; 
         },
 
+        addProject(state, action: PayloadAction<Project>) {
+        state.projects.push(action.payload);
+        },
+
         deletedProject: (state, action: PayloadAction<number>) => { 
             state.projects = state.projects.filter(p => p.id !== action.payload); 
         }
@@ -46,5 +50,5 @@ export const projectSlice = createSlice({
 
 
 //actions
-export const {setProject, selectProject, setProjects, deletedProject} = projectSlice.actions;
+export const {setProject, selectProject, setProjects, deletedProject, addProject} = projectSlice.actions;
 export default projectSlice.reducer;

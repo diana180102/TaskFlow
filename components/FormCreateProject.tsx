@@ -16,6 +16,7 @@ import { Project } from "@/types/projects";
 
 import { Status_project, Role } from "@/enums/enum";
 import { createProjectUser } from "@/services/projectUserService";
+import { addProject, setProjects } from "@/redux/projectSlice";
 
 
 function CreateProject() {
@@ -66,6 +67,7 @@ function CreateProject() {
             };
 
             const project = await createProject(projectData);
+            dispatch(addProject(project));
 
             const emailUser = session?.user?.email;
             console.log(emailUser);
@@ -164,7 +166,8 @@ function CreateProject() {
 
     return (
       <>
-      {isModelOpen === "createProject" && (<Modal>
+      {isModelOpen === "createProject" && (
+        <Modal>
          <button
           onClick={() => dispatch(closeModal())}
           className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
