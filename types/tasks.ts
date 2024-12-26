@@ -19,4 +19,5 @@ export interface TaskUser {
   taskId: number;
   userId: number;
   user: User;
+  task: Task;
   }

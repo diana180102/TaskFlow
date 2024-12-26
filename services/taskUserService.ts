@@ -1,4 +1,4 @@
-import { TaskUser } from "@/types/tasks";
+
 import axios from "axios";
 
 const apiTaskUsers = `/api/taskUser`;

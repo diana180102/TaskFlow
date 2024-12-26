@@ -6,7 +6,13 @@ import React from 'react';
 // Cargar ApexCharts solo en el cliente (Next.js no renderiza gráficos en el servidor)
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const DonutChart: React.FC = () => {
+interface DonutChartProps {
+  pending: number;
+  progress: number;
+  completed: number;
+}
+
+const DonutChart: React.FC<DonutChartProps> = ({ pending, progress, completed }) => {
   // Opciones del gráfico con tipado ApexOptions
   const options: ApexOptions = {
     labels: ['Hechas', 'En Progreso', 'Pendientes'],
@@ -16,6 +22,7 @@ const DonutChart: React.FC = () => {
       labels: {
       colors: ['#13c920', '#f78a0b', '#c82168'], // Cambia el color de los nombres en la leyenda
     }
+    
     },
     stroke: {
       show: true,
@@ -23,6 +30,7 @@ const DonutChart: React.FC = () => {
     },
     dataLabels: {
       enabled: true,
+      
       style: {
         colors: ['#FFF'], // Cambiar el color del label (texto de los porcentajes)
       },
@@ -32,13 +40,19 @@ const DonutChart: React.FC = () => {
   }
   };
 
-  const series = [45, 30, 25]; // Datos de ejemplo: Hechas, En Progreso, Pendientes
+  const series = [completed, progress, pending]; // Datos de ejemplo: Hechas, En Progreso, Pendientes
 
   
 
   return (
     <div>
-      <Chart className="" options={options} series={series} type="donut" width="320" />
+      <Chart 
+        className="" 
+        options={options} 
+        series={series} 
+        type="donut" 
+        width="100%"  
+      />
     </div>
   );
 };

@@ -39,3 +39,38 @@ export async function POST(request:Request) {
     }
 }
 
+export async function GET() {
+    try {
+        const project_users = await prisma.projects_users.findMany(
+            {
+              include: 
+              {
+                projects: true,
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        fullName: true
+                    }
+                }
+              }
+            });
+        return NextResponse.json({
+            status: 200,
+            project_users
+        });
+
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json(
+                {
+                    message: error.message,
+                },
+                {
+                    status: 500,
+                }
+            );
+        }
+    }
+}
+
