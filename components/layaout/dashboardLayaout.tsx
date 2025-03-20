@@ -11,13 +11,7 @@ export default async function DashboardLayaout({children}: Readonly<{children:Re
     
     //get data
     const session = await auth();
-    
-
-   
-     
-   
-
-    return (
+      return (
         <>
      { session &&  
         <div className=" w-full bg-gray-200 flex flex-row min-w-[600px] min-h-screen  ">
