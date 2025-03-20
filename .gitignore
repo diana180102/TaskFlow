@@ -31,6 +31,7 @@ yarn-error.log*
 
 # env files (can opt-in for commiting if needed)
 .env*
+.env.local
 
 # vercel
 .vercel
@@ -38,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#config
+productos-5a5d3-firebase-adminsdk-ndu7j-9a4d6aa7aa.json
