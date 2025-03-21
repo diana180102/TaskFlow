@@ -5,7 +5,7 @@ import { monserrat, archivo_black } from "@/ui/fonts";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../Search";
 import { searchUsers } from "@/services/searchService";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { User } from "@/types/users";
 import Button from "../Button";
 import { createProjectUser, deleteProjectUser, getProjectUsers } from "@/services/projectUserService";
@@ -16,6 +16,8 @@ import { Role } from "@/enums/enum";
 import { CircleX } from "lucide-react";
 import TaskList from "../TaskList";
 import FormTask from "../FormTask";
+import Image from "next/image";
+import { ProjectsUser } from "@/types/projects";
 
 
 interface ProjectDetailsProps {
@@ -26,6 +28,7 @@ interface ProjectDetailsProps {
 function ProjectDetails({projectId}:ProjectDetailsProps) {
    
     const dispatch = useDispatch();
+    
    
    const projectDetails = useSelector((state: RootState) => state.project.projects.find((project) => project.id === projectId));
    const [searchQuery, setSearchQuery] = useState("");
@@ -34,21 +37,27 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
    const [isLoading, setIsLoading] = useState(false); // State for loading indicator"
    const [users, setUsers] = useState<User[]>([]);
 
+  console.log(users);
+
  //Get project
    useEffect(() => {
+     console.trace("Ejecutando fetchProject");
     if (!projectDetails) {
       
       const fetchProject = async () => {
         try {
           const fetchedProject = await getProjectById(projectId); 
           if (fetchedProject) {
+            console.trace("obtener proyecto");
             dispatch(setProject(fetchedProject));
           }
         } catch (error) {
           console.error("Error fetching project details:", error);
         }
       };
-      fetchProject();
+       
+        fetchProject();
+       
     }
   }, [ projectDetails, projectId]);
 
@@ -60,11 +69,13 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
           setIsLoading(true);
           const fetchedUsers = await getProjectUsers(projectId);
 
-          const usersData = fetchedUsers.map((item:any) => ({
+          const usersData = fetchedUsers.map((item:ProjectsUser) => ({
             id: item.user.id,
             fullName: item.user.fullName,
             email: item.user.email,
-            role: item.role
+            image: item.user.image,
+            role: item.user.role,
+            
             
           }));
           
@@ -123,12 +134,15 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
   
 
    useEffect(() => {
+     
     if (!selectedUser) return;
     const fetchProjectUser = async () => {
       try {
         setIsLoading(true);
+        
         await createProjectUser({ projectId, userId: selectedUser.id, role: Role.USER });
-         fetchUsers();
+        //  fetchUsers();
+         setSelectedUser(undefined);
         setIsLoading(false);
       } catch (error) {
         console.error("Error finding user ", error);
@@ -136,6 +150,12 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
     };
     fetchProjectUser();
   }, [selectedUser, projectId]);
+
+  useEffect(() => {
+   if (!isLoading) {
+    fetchUsers();
+  }
+}, [selectedUser]); 
 
 // Search user
       useEffect(() =>{
@@ -204,9 +224,18 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                  </div>
                 
                <ul className="flex flex-col gap-2 bg-slate-50 rounded-lg p-4"> {
-                  users.map((user) => ( 
+                  users.map((user:User) => ( 
                     <li className="flex flex-row justify-between items-center gap-2 p-2 bg-orange-300 rounded-lg" key={user.id}>
                     <div className="flex flex-row gap-2 justify-center items-center">
+                      <Image 
+                          key={user.id}
+                          width={40}
+                          height={40}
+                          src={ user.image || "/assets/images/profile.png"}
+                          alt={"Profile photo"}
+                          className="rounded-full"
+                                         
+                        ></Image>
                       <p className={`${monserrat.style} font-extrabold text-slate-800`}>{user.fullName}</p>
                       <span className="text-xs text-gray-600">{user.email}</span>
                     </div>

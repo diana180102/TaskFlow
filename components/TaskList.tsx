@@ -49,9 +49,13 @@ function TaskList({ projectId }: { projectId: number }) {
 
     try {
       const data = await getTasks();
-      const taskProject = data.tasks.filter(
-        (task: Task) => task.projectId === projectId
-      );
+      const taskProject = data.tasks
+        .filter((task: Task) => task.projectId === projectId)
+        .map((task: Task) => ({
+          ...task,
+          user: task.user || null, 
+          project: task.project || null, 
+        }));
 
       let filteredTasks = taskProject;
       if (searchTerm) {
@@ -88,6 +92,7 @@ function TaskList({ projectId }: { projectId: number }) {
               id: taskUser.user.id,
               fullName: taskUser.user.fullName,
               email: taskUser.user.email,
+              image: taskUser.user.image
             }));
 
           acc[taskItem.id] = users;
@@ -150,9 +155,9 @@ function TaskList({ projectId }: { projectId: number }) {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
+            <thead className="  text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr className="">
                 <th scope="col" className="px-6 py-3">
                   Task Name
                 </th>
