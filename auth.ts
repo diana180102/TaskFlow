@@ -55,7 +55,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          prompt: "consent",
+          prompt: "select_account",
           access_type: "offline",
           response_type: "code",
           scope: "openid email profile",
@@ -70,7 +70,10 @@ export const authOptions: AuthOptions = {
   ],
   debug: process.env.NODE_ENV === "development",
 
-  session: { strategy: "jwt" },
+  session: { 
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24
+  },
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/auth/login",
@@ -80,13 +83,15 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user, profile, account }) {
       const users = user as unknown as User;
 
-      
+     
       
 
      if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = users.fullName;
+        token.exp = Math.floor(Date.now() / 1000) + 60 * 60 *24 
+        
      }
 
      if (account?.provider && profile) {
@@ -102,6 +107,7 @@ export const authOptions: AuthOptions = {
         session.user.image = token.picture;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
+        session.expires = token.exp as string;
       }
 
       return session;
