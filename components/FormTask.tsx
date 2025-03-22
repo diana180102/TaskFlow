@@ -251,12 +251,15 @@ function FormTask({user, projectId}:{projectId:number, user:User[]}) {
                            }
                          </div>
 
-                         <div>
+                         <div className="mt-2">
                             {
                                 selectedUsers.map((user) => (
-                                    <div key={user.id}className="flex flex-row gap-2">
-                                        <p >{user.fullName}</p>
-                                       <Button onClick={() => setSelectedUsers(selectedUsers.filter((selected) => selected.id !== user.id))}><X /></Button> 
+                                    <div key={user.id}className="flex flex-row gap-2 bg-gray-900 rounded-lg justify-between item-center px-2 py-1">
+                                        <div className="flex gap-1 item-center justify-center">
+                                            <p className="text-sm text-white">{user.fullName}</p>
+                                             <p className="text-xs text-gray-400">{user.email}</p>
+                                        </div>
+                                       <Button onClick={() => setSelectedUsers(selectedUsers.filter((selected) => selected.id !== user.id))}><X className="text-orange-300" /></Button> 
                                     </div>
 
                                 )) 

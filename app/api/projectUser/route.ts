@@ -50,7 +50,8 @@ export async function GET() {
                     select: {
                         id: true,
                         email: true,
-                        fullName: true
+                        fullName: true,
+                        image:true
                     }
                 }
               }

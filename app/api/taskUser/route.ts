@@ -13,7 +13,8 @@ export async function GET(request: Request) {
                       select: {
                           id: true,
                           email: true,
-                          fullName: true
+                          fullName: true,
+                          image:true
                       }
                   }
               }
