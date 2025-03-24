@@ -19,6 +19,7 @@ import {
 } from "@hello-pangea/dnd";
 import { addProject, selectProject, setProject, setProjects } from "@/redux/projectSlice";
 import { RootState } from "@/redux/store";
+import { archivo_black } from "@/ui/fonts";
 
 function Projects() {
   type DroppableId = "ESTABLISHED" | "PROGRESS" | "COMPLETED";
@@ -91,13 +92,19 @@ function Projects() {
 
   return (
     <section className="w-full max-w-[1500px] flex flex-col gap-8">
-      <div className="header bg-zinc-50 p-6 flex justify-end rounded-lg shadow-md">
+      <div className="header bg-zinc-50 p-6 flex justify-between rounded-lg shadow-md">
+        <h2
+          className={`text-4xl font-extrabold m-4  tracking-wider text-orange-600  ${archivo_black.className}`}
+        >
+          PROJECTS
+        </h2>
         <Button
           className="bg-orange-500 p-4 rounded-md font-semibold text-gray-100 "
           onClick={() => dispatch(openModal("createProject"))}
         >
           Create Project
         </Button>
+        
       </div>
 
       {isLoading ? (

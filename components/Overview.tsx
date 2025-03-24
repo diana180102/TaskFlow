@@ -120,7 +120,7 @@ function Overview() {
         <section className=" w-full max-w-[1500px] rounded-md shadow-sm flex flex-col gap-8 items-center">
         <div className="header bg-zinc-50 p-4 flex justify-start rounded-lg shadow-md w-full">
           <h2
-            className={` text-4xl  xl:text-5xl font-extrabold m-4  tracking-wider text-orange-600  ${archivo_black.className}`}
+            className={` text-4xl font-extrabold m-4  tracking-wider text-orange-600  ${archivo_black.className}`}
           >
             DASHBOARD
           </h2>

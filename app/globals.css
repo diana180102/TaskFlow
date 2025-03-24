@@ -20,29 +20,35 @@ body {
 
 
 @layer components {
-  .btn-cyan {
+  .btn-green {
     @apply 
-    text-white 
-      bg-gradient-to-r 
-    from-cyan-400
-    via-cyan-500
-    to-cyan-600
-      hover:bg-gradient-to-br
-      focus:ring-4 focus:outline-none
-    focus:ring-cyan-300
-    dark:focus:ring-cyan-800 shadow-lg
-    shadow-cyan-500/50 dark:shadow-lg
-    dark:shadow-cyan-800/80 
-      font-medium 
+    text-black
+    bg-[#13F287]
+    hover:bg-[#B5FF57]
+      font-light
       rounded-lg 
       text-xl 
       px-5
-     py-2.5
+      py-2.5
       text-center
       me-2 mb-2;
   }
   .btn-dark{
-    @apply text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700
+    @apply 
+    text-white 
+    bg-gray-800 
+    hover:bg-gray-900 
+      focus:outline-none 
+      focus:ring-4 
+    focus:ring-gray-300 
+      font-medium 
+      rounded-lg 
+      text-sm px-5 
+      py-2.5 me-2 mb-2 
+    dark:bg-gray-800 
+    dark:hover:bg-gray-700 
+    dark:focus:ring-gray-700 
+    dark:border-gray-700
   }
 
   .btn-red{
@@ -58,13 +64,9 @@ body {
     focus:ring-blue-500
     focus:border-blue-500 
       block w-full p-2.5
-    dark:bg-gray-700
-    dark:border-gray-600
-    dark:placeholder-gray-400
-    dark:text-white
-    dark:focus:ring-blue-500
-    dark:focus:border-blue-500
-  } 
+      
+  }
+    
 
   .card{
     @apply 
@@ -75,6 +77,20 @@ body {
 
 
 
+  }
+
+  .btn-close{
+    @apply
+      absolute 
+    bg-zinc-800 
+    text-white 
+      rounded-full 
+      p-2 
+    hover:bg-red-600 
+      w-8 h-8 
+      flex justify-center 
+      items-center
+    
   }
 
 

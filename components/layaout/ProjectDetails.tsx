@@ -37,18 +37,18 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
    const [isLoading, setIsLoading] = useState(false); // State for loading indicator"
    const [users, setUsers] = useState<User[]>([]);
 
-  console.log(users);
+ 
 
  //Get project
    useEffect(() => {
-     console.trace("Ejecutando fetchProject");
+    
     if (!projectDetails) {
       
       const fetchProject = async () => {
         try {
           const fetchedProject = await getProjectById(projectId); 
           if (fetchedProject) {
-            console.trace("obtener proyecto");
+            
             dispatch(setProject(fetchedProject));
           }
         } catch (error) {

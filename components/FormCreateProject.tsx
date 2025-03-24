@@ -17,6 +17,7 @@ import { Project } from "@/types/projects";
 import { Status_project, Role } from "@/enums/enum";
 import { createProjectUser } from "@/services/projectUserService";
 import { addProject, setProjects } from "@/redux/projectSlice";
+import { X } from "lucide-react";
 
 
 function CreateProject() {
@@ -168,13 +169,14 @@ function CreateProject() {
       <>
       {isModelOpen === "createProject" && (
         <Modal>
+        
+       <form  className="flex flex-col gap-4 relative" onSubmit={handleSubmit}>
          <button
           onClick={() => dispatch(closeModal())}
-          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
+          className="top-[-25px] right-[-25px]  btn-close"
         >
           X
         </button>
-       <form  className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title project</label>
             <Input className="" 
@@ -211,8 +213,10 @@ function CreateProject() {
 
             <div className="flex flex-row gap-2 flex-flex-wrap text-xs  ">
               {selectedUsers.map(user => (
-                <Button onClick={(e) => handleRemoveUser(e, user)} key={user.id} className="bg-slate-400 hover:bg-slate-700 text-zinc-100 p-2 rounded-xl">
-                    {user.fullName || user.email}
+                <Button onClick={(e) => handleRemoveUser(e, user)} key={user.id} className="bg-slate-400 hover:bg-slate-700 text-zinc-100 p-2 rounded-xl flex items-center gap-1">
+                    
+                    <p>{user.fullName || user.email}</p>
+                    <X className="text-orange-300" size={20} />
                 </Button>
               ))}
           </div>

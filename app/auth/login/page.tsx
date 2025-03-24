@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppDispatch } from "@/redux/store";
+import { lexen } from "@/ui/fonts";
 
 function Login() {
 
@@ -70,7 +71,7 @@ function Login() {
   
   
   return (
-    <div className="bg-slate-200 h-full flex justify-center items-center p-4">
+    <div className="bg-[#B5FF57] h-full flex justify-center items-center p-4">
       <section className="container-register bg-white  lg:w-[700px]  flex flex-col-reverse lg:flex-row rounded-xl shadow-md">
         {/* FORM */}
         <div className="container-form p-8 lg:w-1/2">
@@ -80,7 +81,7 @@ function Login() {
              <div className="mb-5">
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${lexen.className}`}
               >
                 Your email
               </label>
@@ -98,7 +99,7 @@ function Login() {
             <div className="mb-5">
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${lexen.className}`}
               >
                 Your password
               </label>
@@ -112,7 +113,7 @@ function Login() {
               />
             </div>
 
-            <Button className="btn-cyan ">Login</Button>
+            <Button className="btn-green ">Login</Button>
 
             
             
@@ -140,13 +141,13 @@ function Login() {
             </p>
         </div>
         {/* IMAGE */}
-        <div className="container-image bg-[#1c2135] flex justify-center items-center lg:w-1/2  rounded-t-lg lg:rounded-r-lg">
-             <Image 
-            src={"/assets/images/task1.png"} 
+        <div className="container-image bg-[#101214] flex justify-center items-center lg:w-1/2  rounded-t-lg lg:rounded-r-lg">
+          <Image 
+            src={"/assets/images/image4.svg"} 
             alt="image-home" 
             width={300} 
             height={900} 
-            className={`w-full`}></Image>
+            className={`w-full p-2`}></Image>
         </div>
         
       </section>
