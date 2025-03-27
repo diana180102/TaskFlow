@@ -16,11 +16,11 @@ const DonutChart: React.FC<DonutChartProps> = ({ pending, progress, completed })
   // Opciones del gráfico con tipado ApexOptions
   const options: ApexOptions = {
     labels: ['Hechas', 'En Progreso', 'Pendientes'],
-    colors: ['#13c920', '#f78a0b', '#c82168'],
+    colors: ['#13F287', '#B5FF57', '#f0fee0'],
     legend: {
       position: 'bottom',
       labels: {
-      colors: ['#13c920', '#f78a0b', '#c82168'], // Cambia el color de los nombres en la leyenda
+      colors: ['#B5FF57', '#B5FF57', '#f0fee0'], // Cambia el color de los nombres en la leyenda
     }
     
     },
@@ -32,12 +32,19 @@ const DonutChart: React.FC<DonutChartProps> = ({ pending, progress, completed })
       enabled: true,
       
       style: {
-        colors: ['#FFF'], // Cambiar el color del label (texto de los porcentajes)
+        colors: ['#282F35'],  // Cambiar el color del label (texto de los porcentajes)
+        fontSize: '10px',
+        
       },
+    },
+    tooltip:{
+      style:{
+        fontSize: '12px'
+      }
     },
     chart: {
     width: '100%'
-  }
+    }
   };
 
   const series = [completed, progress, pending]; // Datos de ejemplo: Hechas, En Progreso, Pendientes

@@ -19,6 +19,8 @@ body {
 
 
 
+
+
 @layer components {
   .btn-green {
     @apply 
@@ -92,6 +94,15 @@ body {
       items-center
     
   }
+
+
+  .apexcharts-tooltip {
+    @apply text-red-500; /* Cambia el color del texto del tooltip */
+  }
+
+
+
+  
 
 
 }

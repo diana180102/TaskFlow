@@ -12,12 +12,12 @@ return (
 <aside className="  md:w-[19%] lg:w-[15%] 2xl:w-[10%] bg-[#13F287]  flex flex-col justify-between items-center xl:items-start">
     <div className="top flex flex-col gap-10 items-center w-full ">
             
-        <p className={`text-md xl:text-2xl mt-4 text-[#282F35] font-extrabold ${lexen.className} `}>TaskFlow</p>
+        <p className={`text-md md:text-xl xl:text-2xl mt-4 ml-4 text-[#101214] font-extrabold ${lexen.className} self-start `}>TaskFlow</p>
                 <div className="links flex flex-col gap-4  w-full">
-                    <Link className={`text-[#101214] flex flex-col md:flex-row justify-center md:justify-start items-start gap-1 ${lexen.className} hover:bg-[#B5FF57] w-full p-4 py-2 `} href={`/dashboard`}> 
+                    <Link className={`text-[#282F35] flex flex-col md:flex-row justify-center md:justify-start items-start gap-1 ${lexen.className} hover:bg-[#B5FF57] w-full p-4 py-2 `} href={`/dashboard`}> 
                         <FontAwesomeIcon className="mr-2 text-2xl" icon={faGauge} />
                         <p className=" lg:text-lg text-center ">Dashboard</p></Link>
-                    <Link className={`text-[#101214] flex flex-col md:flex-row justify-center md:justify-start items-start gap-1 ${lexen.className} hover:bg-[#B5FF57] w-full p-4 py-2 `} href={`/dashboard/projects`}> 
+                    <Link className={`text-[#282F35] flex flex-col md:flex-row justify-center md:justify-start items-start gap-1 ${lexen.className} hover:bg-[#B5FF57] w-full p-4 py-2 `} href={`/dashboard/projects`}> 
                         <FontAwesomeIcon className="mr-2 text-2xl" icon={faBarsProgress} />
                         <p className="lg:text-lg text-center ">Projects</p>
                     </Link>
