@@ -14,7 +14,7 @@ export default async function DashboardLayaout({children}: Readonly<{children:Re
       return (
         <>
      { session &&  
-        <div className=" w-full bg-gray-200 flex flex-row min-w-[600px] min-h-screen  ">
+        <div className=" w-full bg-[#101214] flex flex-row min-w-[600px] min-h-screen  ">
            <Aside></Aside>
 
             <div className="w-full flex flex-col items-center  ">

@@ -1,3 +1,4 @@
+import { lexen } from "@/ui/fonts";
 import React from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -10,7 +11,7 @@ function Input({className, type = 'text', ...delegated}:InputProps) {
    const classname = className || "input-default";
 
      return ( 
-    <input  className={classname} type={type}  {...delegated} /> 
+    <input  className={`input-default placeholder:${lexen.className} font-extralight`} type={type}  {...delegated} /> 
     );
 }
 

@@ -90,7 +90,7 @@ export const authOptions: AuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = users.fullName;
-        token.exp = Math.floor(Date.now() / 1000) + 60 * 60 *24 
+        token.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 
         
      }
 

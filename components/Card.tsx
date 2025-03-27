@@ -7,7 +7,7 @@ type CardProps = {
 
 function Card({children, className}:CardProps) {
     return ( 
-        <div className={`rounded-lg p-4 bg-orange-50 mx-4 shadow-md ${className}`}>
+        <div className={`rounded-lg p-4 bg-[#f0fee0] mx-4 shadow-md ${className}`}>
             {children}
         </div> 
     );
