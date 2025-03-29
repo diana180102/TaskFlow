@@ -94,6 +94,12 @@ body {
       items-center
     
   }
+   
+   .shadow-box{
+      @apply
+       shadow-[0px_-1px_9px_8px_rgba(0,_0,_0,_0.1)]
+   }
+  
 
 
   .apexcharts-tooltip {
@@ -108,6 +114,7 @@ body {
 }
 
 @layer utilities{
-
+   
+  
 
 }

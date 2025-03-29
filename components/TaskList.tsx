@@ -15,6 +15,7 @@ import TaskRow from "./TaskRow";
 import { assignaTask, deleteTasks, setTask } from "@/redux/taskSlice";
 import Pagination from "./Pagination";
 import { RootState } from "@/redux/store";
+import { lexen } from "@/ui/fonts";
 
 type UserMap = { [taskId: number]: User[] };
 
@@ -113,6 +114,7 @@ function TaskList({ projectId }: { projectId: number }) {
     fetchTaskUser();
   }, [tasks]);
 
+
   // Delete Task
   const handleDeleteTask = async (taskId: number) => {
     try {
@@ -125,13 +127,13 @@ function TaskList({ projectId }: { projectId: number }) {
   };
 
   return (
-    <div className=" flex flex-col justify-between relative overflow-x-auto drop-shadow-lg sm:rounded-lg p-4 bg-slate-50 h-[704px]">
+    <div className=" flex flex-col justify-between relative overflow-x-auto drop-shadow-lg sm:rounded-lg p-4 bg-[#161a1d] h-[704px]">
       {/* search - header */}
 
       <div>
         <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
           <Button
-            className="inline-flex items-center text-white bg-gray-800 shadow-md border-gray-300 focus:outline-none hover:bg-orange-500 focus:ring-4 focus:ring-gray-100 font-bold rounded-md text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            className={`inline-flex items-center text-black bg-[#13F287] hover:bg-[#B5FF57] shadow-md border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-100 font-bold rounded-md text-sm px-3 py-1.5 `}
             onClick={() => dispatch(openModal("createTask"))}
           >
             Add Task
@@ -143,7 +145,7 @@ function TaskList({ projectId }: { projectId: number }) {
           <div className="relative">
             <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none"></div>
             <Input
-              className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-[#B5FF57] focus:border-[#B5FF57]"
               placeholder="Search tasks"
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
@@ -155,9 +157,9 @@ function TaskList({ projectId }: { projectId: number }) {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-            <thead className="  text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr className="">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+            <thead className="text-sm text-[#13F287] bg-[#0d0b10] rounded-sm ">
+              <tr className={`${lexen.className}`}>
                 <th scope="col" className="px-6 py-3">
                   Task Name
                 </th>

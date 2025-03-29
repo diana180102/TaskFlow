@@ -119,7 +119,7 @@ function Overview() {
     
     return ( 
       <section className=" w-full max-w-[1500px] rounded-md shadow-sm flex flex-col gap-8 items-center ">
-        <div className="header bg-[#1e2225] p-4 flex justify-start rounded-lg shadow-md w-full">
+        <div className="header bg-[#0d0b10] p-4 flex justify-start rounded-lg shadow-md w-full">
           <h2
             className={` text-4xl font-bold m-4 tracking-wider text-white  ${lexen.className}`}
           >
@@ -127,7 +127,7 @@ function Overview() {
           </h2>
         </div>
 
-        <div className="bg-[#282F35] w-full rounded-md shadow-sm flex flex-col items-center">
+        <div className="bg-[#0d0b10] w-full rounded-md shadow-sm flex flex-col items-center">
           {/* Totales */}
           <div className="total flex flex-col md:flex-row gap-8 mt-8 ">
             <div className={`card w-[280px] h-[170px]  flex flex-row justify-center items-center gap-4 bg-[#f0fee0] ${lexen.className}`}>
@@ -173,8 +173,8 @@ function Overview() {
           <div className="Projects flex flex-col  md:flex-row items-center md:items-start  gap-8  py-8">
             {/* Projects */}
            
-            <div className="card flex flex-col justify-center items-center  w-[420px] md:w-[380px] h-[433px]  xl:w-[480px] bg-[#1e2225]">
-              <h2 className={`text-white tracking-wide mb-4 font-bold text-xl ${lexen.className}`}>
+            <div className="card flex flex-col justify-center items-center  w-[420px] md:w-[380px] h-[433px]  xl:w-[480px] bg-[#f0fee0] drop-shadow-xl">
+              <h2 className={`text-[#101214] tracking-wide mb-4 font-bold text-xl ${lexen.className}`}>
                 Distribución Porcentual del Estado de Proyectos
               </h2>
               {
@@ -191,8 +191,8 @@ function Overview() {
 
              {/* Task */}
 
-             <div className="card flex flex-col justify-center items-center  w-[420px] md:w-[380px] h-[433px]  xl:w-[480px] bg-[#1e2225]">
-              <h2 className={`text-white tracking-wide mb-4 font-bold text-xl ${lexen.className}`}>
+             <div className="card flex flex-col justify-center items-center  w-[420px] md:w-[380px] h-[433px]  xl:w-[480px] bg-[#f0fee0] drop-shadow-xl">
+              <h2 className={`text-[#101214] tracking-wide mb-4 font-bold text-xl ${lexen.className}`}>
                 Distribución Porcentual del Estado de Proyectos
               </h2>
               {
