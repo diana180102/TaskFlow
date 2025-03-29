@@ -1,4 +1,5 @@
 "use client "
+import { lexen } from "@/ui/fonts";
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
@@ -11,7 +12,7 @@ function Button({children, className = "", ...rest}:ButtonProps) {
     const classname = className;
 
     return ( 
-    <button className={classname} {...rest} >
+    <button className={`${classname} ${lexen.className} ` } {...rest}>
         {children}
     </button> );
 }

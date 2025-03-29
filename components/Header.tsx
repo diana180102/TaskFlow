@@ -57,7 +57,7 @@ function Header({ session }: HeaderProps) {
   }, []);
 
   return (
-    <header className="bg-[#101214] w-full text-orange flex items-end flex-col p-4 gap-4  ">
+    <header className=" w-full text-orange flex items-end flex-col p-4 gap-4  ">
       <div className="profile flex gap-4 border border-[#13F287] p-2 rounded-lg ">
         <div className="profile-details">
           <p className="font-bold text-gray-200">{session?.user?.name}</p>

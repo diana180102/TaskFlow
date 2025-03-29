@@ -1,7 +1,7 @@
 "use client";
 import { formatDate } from "@/app/helper/formateDate";
 import { RootState } from "@/redux/store";
-import { monserrat, archivo_black } from "@/ui/fonts";
+import { monserrat, archivo_black, lexen } from "@/ui/fonts";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../Search";
 import { searchUsers } from "@/services/searchService";
@@ -13,11 +13,12 @@ import { getProjectById } from "@/services/projectService";
 import { setProject } from "@/redux/projectSlice";
 import { Role } from "@/enums/enum";
 
-import { CircleX } from "lucide-react";
+import { CirclePlus, CircleX } from "lucide-react";
 import TaskList from "../TaskList";
 import FormTask from "../FormTask";
 import Image from "next/image";
 import { ProjectsUser } from "@/types/projects";
+import { colorStatus } from "@/app/helper/colorStatus";
 
 
 interface ProjectDetailsProps {
@@ -36,6 +37,8 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
    const [selectedUser, setSelectedUser] = useState<User>(); // Selected users
    const [isLoading, setIsLoading] = useState(false); // State for loading indicator"
    const [users, setUsers] = useState<User[]>([]);
+
+   const color = colorStatus(projectDetails?.status ?? "");
 
  
 
@@ -188,32 +191,39 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
     
     return ( 
     
-      <section className="bg-zinc-50 flex flex-col  gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-4" >
-        <div className="project flex flex-col lg:flex-row gap-4 w-full ">
+      <section className="bg-[#0d0b10] flex flex-col  gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-2" >
+        <div className="project flex flex-col lg:flex-col gap-4 w-full ">
             {/* Details */}
-            <div className="detailsProject shadow-lg p-4 bg-gray-200 rounded-lg flex flex-col gap-4 w-full lg:w-[30%] justify-center items-start ">
-                <div className="title flex flex-col justify-center ">
-                    <p className={`${archivo_black.className} font-bold text-3xl`}>{projectDetails?.name}</p>
-                    <p className="text-gray-500 text-sm">{createdDate}</p>
+            <div className="detailsProject shadow-lg p-4 bg-[#161a1d] rounded-lg flex flex-row gap-4 w-full justify-beetween items-start ">
+                <div className="title flex flex-col justify-center gap-4">
+                    <div className="">
+                      <p className={`${lexen.className} font-bold text-3xl text-[#13F287]`}>{projectDetails?.name}</p>
+                      <p className=" text-sm text-[#B5FF57]">Created {createdDate}</p>
+                    </div>
+                    <p className={`${color} text-[#101214] ${lexen.className} font-medium text-center p-2 rounded text-xs w-[75%]`}>{projectDetails?.status}</p>
                 </div>
-                <p className="">{projectDetails?.description}</p>
-                <p className="bg-orange-700 text-white p-2 rounded text-xs">{projectDetails?.status}</p>
+                <p className={`text-[#f0fee0] ${lexen.className} font-light `}>Description: {projectDetails?.description}</p>
+               
             </div>
             {/* Teams members */}
-            <div className="team bg-gray-200 rounded-lg p-4 flex flex-col gap-4 w-full lg:w-[70%] shadow-md ">
-                <p className={`${archivo_black.className} font-bold text-2xl`}>Team</p>
+            <div className="team bg-[#161a1d] rounded-lg p-4 flex flex-col gap-4 w-full  ">
+                <p className={`${lexen.className} font-bold text-2xl text-[#13F287]`}>Team</p>
                  
-                <div className="flex flex-col  w-full h-auto relative ">
+                <div className="flex flex-col  w-full h-auto relative  ">
                 <Search placeholder="Search member" onSearch={handleSearch}></Search>
-                <div className="absolute top-10 w-full bg-white z-10">
+                <div className="absolute top-10 w-full bg-[#101214] z-10 rounded-sm">
                {isLoading && 
                         ( 
                           searchResult.map((user:User) => ( 
                             <Button 
-                                className="bg-gray-100 hover:bg-gray-300  shadow-lg text-sm text-start p-2  w-full " 
+                                className=" flex gap-1 mt-[2px] bg-[#101214] text-white hover:bg-[#161a1d] shadow-lg text-sm text-start p-2  w-full " 
                                 key={user.id} 
                                 onClick={(e) => handleAddUser(e, user)}
-                                > {user.fullName || user.email}
+                                > 
+                                <CirclePlus className="text-[#13F287]" />
+                                <p>{user.fullName || user.email}</p>
+                                <p>{user.email}</p>
+                                
                             
                             </Button>
                           ))
@@ -223,9 +233,9 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                 </div>
                  </div>
                 
-               <ul className="flex flex-col gap-2 bg-slate-50 rounded-lg p-4"> {
+               <ul className="flex flex-col gap-1 bg-[#13F287] rounded-lg p-2"> {
                   users.map((user:User) => ( 
-                    <li className="flex flex-row justify-between items-center gap-2 p-2 bg-orange-300 rounded-lg" key={user.id}>
+                    <li className="flex flex-row justify-between items-center gap-2 p-2 bg-[#f0fee0] rounded-lg" key={user.id}>
                     <div className="flex flex-row gap-2 justify-center items-center">
                       <Image 
                           key={user.id}
@@ -236,8 +246,8 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                           className="rounded-full"
                                          
                         ></Image>
-                      <p className={`${monserrat.style} font-extrabold text-slate-800`}>{user.fullName}</p>
-                      <span className="text-xs text-gray-600">{user.email}</span>
+                      <p className={`${lexen.className} font-semibold text-slate-800`}>{user.fullName}</p>
+                      <span className={`text-xs text-gray-600 ${lexen.className}`}>{user.email}</span>
                     </div>
                     <Button onClick={(e) => handleDeleteUser(e, user)}>
                       <CircleX className="text-gray-100" />
@@ -251,7 +261,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
         </div>
 
         {/* List of tasks */}
-        <div className="list-Task bg-orange-500 rounded-lg p-4 flex flex-col gap-4 w-full h-[736px]  shadow-md">
+        <div className="list-Task  bg-[#13F287] rounded-lg p-2 flex flex-col gap-4 w-full h-[736px]  shadow-md">
             <TaskList projectId={projectDetails.id}></TaskList>
         </div>
         <FormTask user={users} projectId={projectDetails.id} />

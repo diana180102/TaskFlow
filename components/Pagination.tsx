@@ -1,3 +1,4 @@
+import { lexen } from "@/ui/fonts";
 
 interface PaginationProps {
     currentPage: number;
@@ -10,13 +11,13 @@ function Pagination({currentPage, totalPages, handlePageChange}: PaginationProps
    
     
     return ( 
-        <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4">
-        <ul className="inline-flex -space-x-px text-sm h-8">
-          <li>
+        <nav className=" flex items-center flex-column flex-wrap md:flex-row justify-between  pt-4">
+        <ul className=" inline-flex -space-x-px text-sm h-8">
+          <li >
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+              className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#13F287] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
             >
               Previous
             </button>
@@ -27,8 +28,8 @@ function Pagination({currentPage, totalPages, handlePageChange}: PaginationProps
                 onClick={() => handlePageChange(index + 1)}
                 className={`flex items-center justify-center px-3 h-8 leading-tight ${
                   currentPage === index + 1
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-500 bg-white"
+                    ? "text-black bg-blue-50"
+                    : "text-gray-500 bg-[#f0fee0]"
                 } border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
               >
                 {index + 1}
@@ -39,7 +40,7 @@ function Pagination({currentPage, totalPages, handlePageChange}: PaginationProps
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+             className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#13F287] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
             >
               Next
             </button>

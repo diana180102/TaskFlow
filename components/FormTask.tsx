@@ -33,8 +33,7 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
     projectId: projectId,
   });
 
-  console.log(searchQuery, "query");
-  console.log(searchResult, "Result");
+
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -90,7 +89,8 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
         dispatch(addTask(res));
       } else if (isModalOpen === "updateTask") {
         if (selectedTaskId !== undefined) {
-          await updateTask(taskData, selectedTaskId);
+         const updatedTask = await updateTask(taskData, selectedTaskId);
+           dispatch(updateTasks(updatedTask));
         }
       }
 

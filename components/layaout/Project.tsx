@@ -92,7 +92,7 @@ function Projects() {
 
   return (
     <section className="w-full max-w-[1500px] flex flex-col gap-8">
-      <div className="header bg-[#1e2225] p-6 flex justify-between rounded-lg shadow-md">
+      <div className="header bg-[#0d0b10] p-6 flex justify-between rounded-lg shadow-md">
         <h2
           className={`text-4xl font-bold m-4  tracking-wider text-white  ${lexen.className}`}
         >
@@ -111,12 +111,12 @@ function Projects() {
         <p>Loading projects...</p>
       ) : (
         <DragDropContext onDragEnd={onDragEnd as OnDragEndResponder<string>}>
-          <div className="to-do bg-[#282F35] flex flex-col lg:flex-row gap-4 rounded-lg shadow-md ">
+          <div className="to-do bg-[#0d0b10] flex flex-col lg:flex-row gap-4 rounded-lg shadow-md ">
             {Object.entries(columns).map(([columnId, column]) => (
               <Droppable key={columnId} droppableId={columnId} >
                 {(provided) => (
                   <div
-                    className="lg:w-[33%] flex flex-col gap-4 m-4 h-auto  shadow-md bg-[#1e2225] rounded-md p-4 "
+                    className="lg:w-[33%] flex flex-col gap-4 m-4 h-auto  shadow-md bg-[#161a1d] rounded-md p-4 shadow-box shadow-[rgba(0, 0, 0, 0.1)]"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
