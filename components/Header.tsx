@@ -57,16 +57,16 @@ function Header({ session }: HeaderProps) {
   }, []);
 
   return (
-    <header className=" w-full text-orange flex items-end flex-col p-4 gap-4  ">
-      <div className="profile flex gap-4 border border-[#13F287] p-2 rounded-lg ">
-        <div className="profile-details">
-          <p className="font-bold text-gray-200">{session?.user?.name}</p>
-          <p className="text-sm text-gray-200"> {session?.user?.email} </p>
+    <header className=" w-full text-orange flex items-end flex-col pt-4  gap-4  ">
+      <div className="profile flex p-2 mx-4 gap-4 border border-[#DBF227]  rounded-lg bg-[#9FC131] drop-shadow-md">
+        <div className="profile-details  ">
+          <p className="font-bold text-black">{session?.user?.name}</p>
+          <p className="text-sm text-black"> {session?.user?.email} </p>
         </div>
         <CldUploadButton uploadPreset="bkbmcqnk" onSuccess={handleSuccess} className="relative group">
           <div className=" relative w-14 h-14">
           <Image
-            className="rounded-full  w-14 h-14 border-[#13F287] border-2"
+            className="rounded-full  w-14 h-14 border-[#DBF227] border-2"
             src={imageUrl || image}
             width={300}
             height={300}
@@ -78,7 +78,7 @@ function Header({ session }: HeaderProps) {
           </div>
         </CldUploadButton>
       </div>
-      <div className="w-[95%] h-[1px] bg-[#13F287]"></div>
+      <div className="w-full h-[1px] bg-[#005C53]"></div>
     </header>
   );
 }

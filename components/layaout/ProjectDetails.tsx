@@ -191,32 +191,32 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
     
     return ( 
     
-      <section className="bg-[#0d0b10] flex flex-col  gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-2" >
+      <section className="bg-[#f0fee0] flex flex-col  gap-4 rounded-lg shadow-md w-full max-w-[1500px] p-2" >
         <div className="project flex flex-col lg:flex-col gap-4 w-full ">
             {/* Details */}
-            <div className="detailsProject shadow-lg p-4 bg-[#161a1d] rounded-lg flex flex-row gap-4 w-full justify-beetween items-start ">
+            <div className="detailsProject shadow-lg p-4 bg-[#042940] rounded-lg flex flex-row gap-4 w-full justify-beetween items-start ">
                 <div className="title flex flex-col justify-center gap-4">
                     <div className="">
-                      <p className={`${lexen.className} font-bold text-3xl text-[#13F287]`}>{projectDetails?.name}</p>
-                      <p className=" text-sm text-[#B5FF57]">Created {createdDate}</p>
+                      <p className={`${lexen.className} font-bold text-3xl text-[#DBF227]`}>{projectDetails?.name}</p>
+                      <p className=" text-sm text-[#dcddd6]">Created {createdDate}</p>
                     </div>
                     <p className={`${color} text-[#101214] ${lexen.className} font-medium text-center p-2 rounded text-xs w-[75%]`}>{projectDetails?.status}</p>
                 </div>
-                <p className={`text-[#f0fee0] ${lexen.className} font-light `}>Description: {projectDetails?.description}</p>
+                <p className={`text-[#dcddd6] ${lexen.className} font-light `}>Description: {projectDetails?.description}</p>
                
             </div>
             {/* Teams members */}
-            <div className="team bg-[#161a1d] rounded-lg p-4 flex flex-col gap-4 w-full  ">
-                <p className={`${lexen.className} font-bold text-2xl text-[#13F287]`}>Team</p>
+            <div className="team bg-[#042940] rounded-lg p-4 flex flex-col gap-4 w-full  ">
+                <p className={`${lexen.className} font-bold text-2xl text-[#DBF227]`}>Team</p>
                  
                 <div className="flex flex-col  w-full h-auto relative  ">
                 <Search placeholder="Search member" onSearch={handleSearch}></Search>
-                <div className="absolute top-10 w-full bg-[#101214] z-10 rounded-sm">
+                <div className="absolute top-10 w-full bg-[#042940] z-10 rounded-sm">
                {isLoading && 
                         ( 
                           searchResult.map((user:User) => ( 
                             <Button 
-                                className=" flex gap-1 mt-[2px] bg-[#101214] text-white hover:bg-[#161a1d] shadow-lg text-sm text-start p-2  w-full " 
+                                className=" flex gap-1 mt-[2px] bg-[#042940] text-white hover:bg-[#161a1d] shadow-lg text-sm text-start p-2  w-full " 
                                 key={user.id} 
                                 onClick={(e) => handleAddUser(e, user)}
                                 > 
@@ -233,7 +233,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
                 </div>
                  </div>
                 
-               <ul className="flex flex-col gap-1 bg-[#13F287] rounded-lg p-2"> {
+               <ul className="flex flex-col gap-1 bg-[#005C53] rounded-lg p-2"> {
                   users.map((user:User) => ( 
                     <li className="flex flex-row justify-between items-center gap-2 p-2 bg-[#f0fee0] rounded-lg" key={user.id}>
                     <div className="flex flex-row gap-2 justify-center items-center">
@@ -261,7 +261,7 @@ function ProjectDetails({projectId}:ProjectDetailsProps) {
         </div>
 
         {/* List of tasks */}
-        <div className="list-Task  bg-[#13F287] rounded-lg p-2 flex flex-col gap-4 w-full h-[736px]  shadow-md">
+        <div className="list-Task  bg-[#005C53] rounded-lg p-2 flex flex-col gap-4 w-full h-[736px]  shadow-md">
             <TaskList projectId={projectDetails.id}></TaskList>
         </div>
         <FormTask user={users} projectId={projectDetails.id} />

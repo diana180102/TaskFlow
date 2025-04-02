@@ -9,6 +9,7 @@ import { setProject } from "@/redux/projectSlice";
 import { RootState } from "@/redux/store";
 import { Project } from "@/types/projects";
 import { updateProject } from "@/services/projectService";
+import { lexen } from "@/ui/fonts";
 
 function FormUpdateProject() {
   const dispatch = useDispatch();
@@ -71,22 +72,23 @@ function FormUpdateProject() {
     <>
       {isModalOpen === "updateProject" && (
         <Modal>
-          <button
+          
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4  relative">
+            <Button
             onClick={() => dispatch(closeModal())}
-            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
+            className="absolute top-[-20px] right-[-20px]  text-white rounded-full p-2  w-[30px] h-[30px] btn-close"
           >
             X
-          </button>
-          <form onSubmit={handleSubmit}>
+          </Button>
             <div>
-              <label htmlFor="name">Name Project</label>
+              <label htmlFor="name" className={`${lexen.className}`}>Name Project</label>
               <Input name="name" value={data.name} onChange={onChangeInput} />
             </div>
             <div>
-              <label htmlFor="description">Description Project</label>
+              <label htmlFor="description" className={`${lexen.className}`}>Description Project</label>
               <Input name="description" value={data.description} onChange={onChangeInput} />
             </div>
-            <Button>Save</Button>
+            <Button className="bg-[#9FC131] hover:bg-[#bada53] rounded-md p-2 ">Save</Button>
           </form>
         </Modal>
       )}
