@@ -43,14 +43,14 @@ function ProjectCard({ id }: Partial<Project>) {
  
 
   return (
-   <Card className="flex flex-col gap-4 justify-around items-start relative">
+   <Card className="flex flex-col gap-4 justify-around items-start relative ">
       <div className="header flex flex-col w-full ">
         <div className="flex flex-row justify-between w-full">
         <h2 className={`${lexen.className} text-lg font-bold text-gray-950`}>
           {project?.name}
         </h2>
         <Button key={id} onClick={handleDropdown} className="self-start">
-          <Ellipsis className="text-[#13F287]" />
+          <Ellipsis className="text-[#005C53]" />
         </Button>
         </div>
         <p className={`text-[0.7rem] text-gray-500 font-light ${lexen.className}`}>Created {createdProject}</p>

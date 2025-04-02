@@ -18,6 +18,7 @@ import { Status_project, Role } from "@/enums/enum";
 import { createProjectUser } from "@/services/projectUserService";
 import { addProject, setProjects } from "@/redux/projectSlice";
 import { X } from "lucide-react";
+import { lexen } from "@/ui/fonts";
 
 
 function CreateProject() {
@@ -178,14 +179,14 @@ function CreateProject() {
           X
         </button>
           <div>
-            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title project</label>
+            <label htmlFor="name" className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className} `}>Title project</label>
             <Input className="" 
                value={formData.name}
                name="name"
                onChange={handleChange}></Input>
           </div>
           <div>
-            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Describe project</label>
+            <label htmlFor="description" className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className} `}>Describe project</label>
             <textarea
                 placeholder="Write your thoughts here..."
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -197,7 +198,7 @@ function CreateProject() {
 
 
         <div>
-            <label htmlFor="users" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invite Members</label>
+            <label htmlFor="users" className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className} `}>Invite Members</label>
            <Input name="users"  onChange={handleChangeSearch} ></Input>
           <div className="flex flex-col mt-2">
            {isLoading && (
@@ -222,7 +223,7 @@ function CreateProject() {
           </div>
 
 
-          <Button  className="bg-orange-600 text-gray-100 p-2 rounded-md">Create Project</Button>
+          <Button  className="bg-[#9FC131] text-black p-2 rounded-md">Create Project</Button>
           
 
        </form>

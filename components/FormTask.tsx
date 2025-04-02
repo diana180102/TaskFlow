@@ -11,6 +11,7 @@ import { User } from "@/types/users";
 import { createTask, getTaskById, updateTask } from "@/services/taskService";
 import { X } from "lucide-react";
 import { addTask, updateTasks } from "@/redux/taskSlice";
+import { lexen } from "@/ui/fonts";
 
 type ModalState = "updateTask" | "createTask" | null;
 
@@ -170,14 +171,14 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
               <div className="sm:col-span-2">
                 <label
                   htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className}`}
                 >
                   Name Task
                 </label>
                 <Input
                   name="title"
                   id="name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${lexen.className} `}
                   placeholder="Name of task"
                   value={task.title}
                   onChange={handleChange}
@@ -188,14 +189,14 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
               <div>
                 <label
                   htmlFor="priority"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className}`}
                 >
                   Priority
                 </label>
                 <select
                   id="priority"
                   name="priority"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
                   onChange={handleChange}
                   value={task.priority}
                 >
@@ -211,14 +212,14 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
               <div>
                 <label
                   htmlFor="status"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className}`}
                 >
                   Status
                 </label>
                 <select
                   id="status"
                   name="status"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
                   onChange={handleChange}
                   value={task.status}
                 >
@@ -235,14 +236,14 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
               <div className="sm:col-span-2">
                 <label
                   htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className}`}
                 >
                   AssigneTo
                 </label>
                 <Input
                   type="search"
                   value={searchQuery}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Assign to member project"
                   onChange={handleSearch}
                 />
@@ -264,7 +265,7 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
                   {selectedUsers.map((user) => (
                     <div
                       key={user.id}
-                      className="flex flex-row gap-2 bg-gray-900 rounded-lg justify-between item-center px-2 py-1"
+                      className="flex flex-row gap-2 bg-[#042940] rounded-lg justify-between item-center px-2 py-1"
                     >
                       <div className="flex gap-1 item-center justify-center">
                         <p className="text-sm text-white">{user.fullName}</p>
@@ -280,7 +281,7 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
                           )
                         }
                       >
-                        <X className="text-orange-300" />
+                        <X className="text-[#DBF227]" />
                       </Button>
                     </div>
                   ))}
@@ -290,7 +291,7 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
               <div className="sm:col-span-2">
                 <label
                   htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className={`block mb-2 text-sm font-medium text-gray-900 ${lexen.className}`}
                 >
                   Description
                 </label>
@@ -298,14 +299,14 @@ function FormTask({ user, projectId }: { projectId: number; user: User[] }) {
                   id="description"
                   name="description"
                   rows={4}
-                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 "
                   placeholder="Write task description"
                   onChange={handleChange}
                   value={task.description}
                 ></textarea>
               </div>
             </div>
-            <Button className="text-gray inline-flex items-center bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <Button className="text-gray inline-flex items-center bg-[#9FC131] hover:bg-[#bada53] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
               {isModalOpen === "updateTask" ? "Update Task" : "Create Task"}
             </Button>
           </form>

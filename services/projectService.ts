@@ -23,7 +23,7 @@ export async function getProjectById(id:number){
         return res.data;
     } catch (error) {
         if(axios.isAxiosError(error)){
-        console.log("Error create project:", error.response?.data || error.message);
+        console.log("Error in get project:", error.response?.data || error.message);
        }else{
         console.log("Error inesperado: ", error);
        }
@@ -38,7 +38,7 @@ export async function getProjects() {
         return res.data;
     } catch (error) {
         if(axios.isAxiosError(error)){
-            console.log("Error in get Project:", error.response?.data || error.message)
+            console.log("Error in get Projects:", error.response?.data || error.message)
         }else{
             console.log("Error inesperado: ", error);
         }

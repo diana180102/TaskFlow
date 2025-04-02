@@ -17,7 +17,7 @@ function Pagination({currentPage, totalPages, handlePageChange}: PaginationProps
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#13F287] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
+              className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#DBF227] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
             >
               Previous
             </button>
@@ -40,7 +40,7 @@ function Pagination({currentPage, totalPages, handlePageChange}: PaginationProps
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-             className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#13F287] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
+             className={` rounded-sm flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#DBF227] borderhover:bg-[#B5FF57] hover:text-gray-700 ${lexen.className}`}
             >
               Next
             </button>
